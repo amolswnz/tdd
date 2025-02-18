@@ -8,7 +8,8 @@
         "silverstripe/vendor-plugin": "^2",
         "silverstripe/recipe-cms": "^5",
         "silverstripe-themes/simple": "^3",
-        "silverstripe/login-forms": "^5"
+        "silverstripe/login-forms": "^5",
+        "dnadesign/silverstripe-elemental": "^5.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.6"

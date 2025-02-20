@@ -8,6 +8,8 @@ use DNADesign\Elemental\Models\BaseElement;
 
 class HeroElement extends BaseElement
 {
+    private static string $table_name = 'HeroElement';
+    
     private static string $singular_name = 'hero element';
     
     private static string $plural_name = 'hero elements';

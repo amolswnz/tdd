@@ -2,6 +2,7 @@
 
 namespace App\Elements;
 
+use SilverStripe\Assets\Image;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\RequiredFields;
 use SilverStripe\LinkField\Models\Link;
@@ -27,7 +28,9 @@ class HeroElement extends BaseElement
     ];
 
     private static array $has_one = [
-        'CTALink' =>  Link::class
+        'CTALink' =>  Link::class,
+        'CTALink2' =>  Link::class,
+        'BackgroundImage' => Image::class,
     ];
 
     public function getCMSFields(): FieldList
@@ -35,6 +38,7 @@ class HeroElement extends BaseElement
         $fields = parent::getCMSFields();
 
         $fields->addFieldToTab('Root.Main', LinkField::create('CTALink', 'CTA Link'));
+        $fields->addFieldToTab('Root.Main', LinkField::create('CTALink2', 'CTA Link Secondary'));
 
         return $fields;
     }

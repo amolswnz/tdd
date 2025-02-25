@@ -1,0 +1,33 @@
+DNADesign\Elemental\Models\ElementalArea:
+  test-page--blocks:
+    OwnerClassName: Page
+
+Page:
+  test-page:
+    Title: Test page
+    URLSegment: test-page
+    ElementalArea: =>DNADesign\Elemental\Models\ElementalArea.test-page--blocks
+
+SilverStripe\LinkField\Models\ExternalLink:
+  link1:
+    LinkText: Learn more
+    ExternalUrl: https://www.silverstripe.co.nz
+  link2:
+    LinkText: Watch video
+    ExternalUrl: https://www.youtube.com
+
+SilverStripe\Assets\Image:
+  bg-image:
+    Title: bg-image.jpg
+    Filename: app/tests/phpunit/Blocks/bg-image.jpg
+    PopulateFileFrom: app/tests/phpunit/Blocks/bg-image.jpg
+
+App\Elements\HeroElement:
+  hero1:
+    Title: Test Hero Element
+    Heading: Cillum et occaecat sit ea irure.
+    Content: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum nesciunt cum blanditiis ducimus aspernatur. Excepturi incidunt minus aliquam explicabo eaque modi porro, placeat blanditiis. Omnis assumenda in quas eaque officiis.
+    CTALinkID: =>SilverStripe\LinkField\Models\ExternalLink.link1
+    CTALink2ID: =>SilverStripe\LinkField\Models\ExternalLink.link2
+    BackgroundImage: =>SilverStripe\Assets\Image.bg-image
+    Parent: =>DNADesign\Elemental\Models\ElementalArea.test-page--blocks

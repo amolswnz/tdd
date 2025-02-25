@@ -13,7 +13,8 @@
         "silverstripe/linkfield": "^4.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.6"
+        "phpunit/phpunit": "^9.6",
+        "dnadesign/silverstripe-populate": "^3.0@beta"
     },
     "extra": {
         "project-files-installed": [

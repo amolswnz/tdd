@@ -3,6 +3,7 @@
 namespace App\Elements;
 
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\RequiredFields;
 use SilverStripe\LinkField\Models\Link;
 use SilverStripe\Forms\CompositeValidator;
 use SilverStripe\LinkField\Form\LinkField;
@@ -41,6 +42,11 @@ class HeroElement extends BaseElement
     public function getCMSCompositeValidator(): CompositeValidator
     {
         $validator = parent::getCMSCompositeValidator();
+
+        $validator->addValidator(RequiredFields::create([
+            'Heading',
+            'Content'
+        ]));
 
         return $validator;
     }

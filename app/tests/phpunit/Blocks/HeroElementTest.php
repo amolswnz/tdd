@@ -6,6 +6,8 @@ use App\Elements\HeroElement;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Dev\SapphireTest;
+use SilverStripe\Forms\RequiredFields;
+use SilverStripe\Forms\CompositeValidator;
 use SilverStripe\LinkField\Form\LinkField;
 
 class HeroElementTest extends SapphireTest
@@ -42,5 +44,19 @@ class HeroElementTest extends SapphireTest
             $msg = sprintf('The field %s should be an instance of %s::class', $key, $class);
             $this->assertInstanceOf($class, $fields->dataFieldByName($key), $msg);
         }
+    }
+
+    public function test_required_fields(): void
+    {
+        $block = singleton(HeroElement::class);
+
+        $validator = $block->getCMSCompositeValidator();
+        $this->assertInstanceOf(CompositeValidator::class, $validator);
+
+        $fields = $validator->getValidatorsByType(RequiredFields::class);
+        $requiredFields = reset($fields); // Gets the first validator
+
+        $this->assertInstanceOf(RequiredFields::class, $requiredFields);
+        $this->assertEquals(['Heading', 'Content'], $requiredFields->getRequired());
     }
 }

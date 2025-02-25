@@ -31,3 +31,8 @@ App\Elements\HeroElement:
     CTALink2ID: =>SilverStripe\LinkField\Models\ExternalLink.link2
     BackgroundImage: =>SilverStripe\Assets\Image.bg-image
     Parent: =>DNADesign\Elemental\Models\ElementalArea.test-page--blocks
+  hero2:
+    Title: Test Hero Element
+    Heading: This is a heading
+    Content: This is a summary field
+    Parent: =>DNADesign\Elemental\Models\ElementalArea.test-page--blocks

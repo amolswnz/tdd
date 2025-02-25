@@ -62,4 +62,14 @@ class HeroElementTest extends SapphireTest
         $this->assertInstanceOf(RequiredFields::class, $requiredFields);
         $this->assertEquals(['Heading', 'Content'], $requiredFields->getRequired());
     }
+
+    public function test_template_render(): void
+    {
+        $heroElement = $this->objFromFixture(HeroElement::class, 'hero2');
+        $html = $heroElement->forTemplate();
+
+        $this->assertStringContainsString("<div id='hero-block'>", $html);
+        $this->assertStringContainsString("<h1 id='hero-heading'>This is a heading</h1>", $html);
+        $this->assertStringContainsString("<p id='hero-content'>This is a summary field</p>", $html);
+    }
 }

@@ -6,9 +6,9 @@
 <div id='hero-block'>
 <section class="bg-white dark:bg-gray-900" style="background-image: url('bg-image.jpg'); background-size: cover;">
     <div class="mx-auto max-w-screen-xl px-4 py-8 text-center lg:px-12 lg:py-16">
-        <div class="mb-4 text-4xl leading-none font-extrabold tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"><h1 id='hero-heading'>Cillum et occaecat sit ea irure.</h1></div>
+        <div class="mb-4 text-4xl leading-none font-extrabold tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"><h1 id='hero-heading'>$Heading</h1></div>
         <div class="mb-8 text-lg font-normal text-gray-500 sm:px-16 lg:text-xl xl:px-48 dark:text-gray-400" id='hero-content'>
-            <p id='hero-content'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum nesciunt cum blanditiis ducimus aspernatur. Excepturi incidunt minus aliquam explicabo eaque modi porro, placeat blanditiis. Omnis assumenda in quas eaque officiis.</p>
+            <p id='hero-content'>$Content</p>
         </div>
 
         <div class="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">

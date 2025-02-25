@@ -3,7 +3,7 @@
 namespace Tests\Blocks;
 
 use App\Elements\HeroElement;
-use SilverStripe\Assets\Image;
+use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Dev\SapphireTest;
@@ -40,7 +40,7 @@ class HeroElementTest extends SapphireTest
             'Content' => TextField::class,
             'CTALink' => LinkField::class,
             'CTALink2' => LinkField::class,
-            'BackgroundImage' => Image::class
+            'BackgroundImage' => UploadField::class
         ];
 
         foreach ($expectedInstances as $key => $class) {

@@ -1,5 +1,7 @@
-themes/app/templates/App/PageTypes/ContentPage.ss
+<div class='elemental-area my-4'>
+    $ElementalArea
+</div>
 
-<h1>$ExtraContent</h1>
+<h4>$ExtraContent</h4>
 
 <img src='$HeaderImage.Link' alt='$HeaderImage.Title' class='header-image' />

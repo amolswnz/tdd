@@ -1,5 +1,26 @@
-<hr>
-&copy; 2010 - 2023 <a href="https://www.silverstripe.org">SilverStripe</a>. All rights reserved. <br>
-<a href="https://www.silverstripe.org/software-license">Software License</a> | <a href="https://www.silverstripe.org/privacy-policy">Privacy Policy</a> | <a href="https://www.silverstripe.org/terms-and-conditions">Terms and Conditions</a> | <a href="https://www.silverstripe.org/contact">Contact</a>
-<br>
-<a href="https://www.silverstripe.org/learn/blog/2023/10/04/silverstripe-5-2-0-released/">SilverStripe 5.2.0</a> is now available! <a href="https://www.silverstripe.org/learn/blog/2023/10/04/silverstripe-5-2-0-released/">Read the blog post</a>.
+<footer class="bg-white rounded-lg shadow-sm dark:bg-gray-900 m-2 p-4">
+    <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+        <div class="sm:flex sm:items-center sm:justify-between">
+            <a href="https://flowbite.com/" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
+                <img src="https://www.silverstripe.com/_resources/themes/app/dist/images/logos/silverstripe-logo.svg" class="h-8" alt="Flowbite Logo" />
+            </a>
+            <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+                <li>
+                <a class="hover:underline me-4 md:me-6" href="https://www.silverstripe.org/software-license">Software License</a>
+                </li>
+                <li>
+                <a class="hover:underline me-4 md:me-6" href="https://www.silverstripe.org/privacy-policy">Privacy Policy</a>
+                </li>
+                <li>
+                <a class="hover:underline me-4 md:me-6" href="https://www.silverstripe.org/contact">Contact</a>
+                </li>
+                <li>
+                <a class="hover:underline" href="https://www.silverstripe.org/terms-and-conditions">Terms and Conditions</a>
+                </li>
+            </ul>
+        </div>
+        <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+        <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="https://www.silverstripe.org">SilverStripe</a>. All Rights Reserved.</span>
+    </div>
+</footer>
+

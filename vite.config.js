@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 // import react from '@vitejs/plugin-react'; // Uncomment for React
 // import vue from '@vitejs/plugin-vue';    // Uncomment for Vue
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   // plugins: [react()], // Add plugins as needed
@@ -18,6 +19,9 @@ export default defineConfig({
       },
     },
   },
+  plugins: [
+    tailwindcss(),
+  ],
   server: {
     port: 3000, // Vite dev server port
     host: 'localhost',

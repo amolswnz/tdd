@@ -3,14 +3,17 @@
   "version": "1.0.0",
   "description": "[![CI](https://github.com/silverstripe/silverstripe-installer/actions/workflows/ci.yml/badge.svg)](https://github.com/silverstripe/silverstripe-installer/actions/workflows/ci.yml) [![Silverstripe supported module](https://img.shields.io/badge/silverstripe-supported-0071C4.svg)](https://www.silverstripe.org/software/addons/silverstripe-commercially-supported-module-list/)",
   "main": "index.js",
+  "type": "module",
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.3",
     "esbuild": "^0.25.2",
     "fsevents": "^2.3.3",
     "nanoid": "^3.3.11",
     "picocolors": "^1.1.1",
     "postcss": "^8.5.3",
     "rollup": "^4.39.0",
-    "source-map-js": "^1.2.1"
+    "source-map-js": "^1.2.1",
+    "tailwindcss": "^4.1.3"
   },
   "devDependencies": {
     "vite": "^6.2.5"

@@ -15,8 +15,6 @@
         <%-- <% include SiteBanners %> --%>
         <% include Header %>
 
-        <%-- <% include MobileMenu %> --%>
-
         <main id="main">
             $Layout
         </main>

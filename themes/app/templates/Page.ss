@@ -15,7 +15,7 @@
         <%-- <% include SiteBanners %> --%>
         <% include Header %>
 
-        <main id="main">
+        <main id="main" class="p-8 bg-white/40">
             $Layout
         </main>
 

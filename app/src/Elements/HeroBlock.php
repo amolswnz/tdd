@@ -57,8 +57,8 @@ class HeroBlock extends BaseElement
             'Root.Main',
             [
                 TextField::create('Heading', 'Heading'),
-                TextareaField::create('MainContent', 'MainContent'),
-                UploadField::create('BackgroundImage', 'BackgroundImage'),
+                TextareaField::create('MainContent', 'Content'),
+                UploadField::create('BackgroundImage', 'Background Image'),
 
                 LinkField::create('PrimaryLink', 'Primary Link'),
                 LinkField::create('SecondaryLink', 'Secondary Link'),
@@ -78,7 +78,6 @@ class HeroBlock extends BaseElement
                     ],
                     'center'
                 )
-                    ->setEmptyString('Select an alignment')
                     ->setDescription('Choose the alignment of the content within the hero block.'),
             ]
         );

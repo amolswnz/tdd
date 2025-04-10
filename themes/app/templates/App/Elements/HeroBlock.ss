@@ -1,4 +1,5 @@
-<div class="hero-block" style="background-color: $BackgroundColor; color: $TextColor;">
+<div class="hero-block"
+    style="<% if $BackgroundColor %> background-color: $BackgroundColor; <% end_if %>">
     <% if $BackgroundImage %>
         <div class="hero-block__background">
             $BackgroundImage.Fill(1920, 800)
@@ -7,11 +8,17 @@
 
     <div class="hero-block__content hero-block__content--$ContentAlignment">
         <% if $Heading %>
-            <h2 class="hero-block__heading">$Heading</h2>
+            <h2 class="hero-block__heading"
+                style="<% if $TextColor %> color: $TextColor; <% end_if %>">
+                $Heading
+            </h2>
         <% end_if %>
 
         <% if $MainContent %>
-            <div class="hero-block__main-content">$MainContent</div>
+            <div class="hero-block__main-content"
+                style="<% if $TextColor %> color: $TextColor; <% end_if %>">
+                $MainContent
+            </div>
         <% end_if %>
 
         <div class="hero-block__links">

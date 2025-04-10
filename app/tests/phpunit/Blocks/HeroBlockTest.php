@@ -3,18 +3,19 @@
 namespace Tests\Blocks;
 
 use App\Elements\HeroBlock;
-use SilverStripe\ORM\DataObject;
-use SilverStripe\Forms\TextField;
-use SilverStripe\Dev\SapphireTest;
-use SilverStripe\Forms\DropdownField;
-use SilverStripe\Forms\TextareaField;
-use SilverStripe\Forms\RequiredFields;
-use SilverStripe\Forms\CompositeValidator;
-use SilverStripe\LinkField\Form\LinkField;
 use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\Dev\SapphireTest;
+use SilverStripe\Forms\CompositeValidator;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\RequiredFields;
+use SilverStripe\Forms\TextareaField;
+use SilverStripe\Forms\TextField;
+use SilverStripe\LinkField\Form\LinkField;
+use SilverStripe\ORM\DataObject;
 
 class HeroBlockTest extends SapphireTest
 {
+
     protected static $fixture_file = 'HeroBlockTest.yml';
 
     public function test_hero_block_table_name(): void

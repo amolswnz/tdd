@@ -2,16 +2,16 @@
 
 namespace App\Elements;
 
-use SilverStripe\Assets\Image;
-use SilverStripe\Forms\TextField;
-use SilverStripe\Forms\DropdownField;
-use SilverStripe\Forms\TextareaField;
-use SilverStripe\Forms\RequiredFields;
-use SilverStripe\LinkField\Models\Link;
-use SilverStripe\Forms\CompositeValidator;
-use SilverStripe\LinkField\Form\LinkField;
 use DNADesign\Elemental\Models\BaseElement;
 use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\Assets\Image;
+use SilverStripe\Forms\CompositeValidator;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\RequiredFields;
+use SilverStripe\Forms\TextareaField;
+use SilverStripe\Forms\TextField;
+use SilverStripe\LinkField\Form\LinkField;
+use SilverStripe\LinkField\Models\Link;
 
 class HeroBlock extends BaseElement
 {
@@ -58,7 +58,9 @@ class HeroBlock extends BaseElement
                 LinkField::create('PrimaryLinkID', 'Primary Link'),
                 LinkField::create('SecondaryLinkID', 'Secondary Link'),
 
-                TextField::create('BackgroundColor', 'Background Color')->setDescription('Hex color code (e.g. #FFFFFF)'),
+                TextField::create('BackgroundColor', 'Background Color')->setDescription(
+                    'Hex color code (e.g. #FFFFFF)'
+                ),
                 TextField::create('TextColor', 'Text Color')->setDescription('Hex color code (e.g. #FFFFFF)'),
                 DropdownField::create(
                     'ContentAlignment',
@@ -66,12 +68,13 @@ class HeroBlock extends BaseElement
                     [
                         'Left' => 'Left',
                         'Center' => 'Center',
-                        'Right' => 'Right'
+                        'Right' => 'Right',
                     ],
                     'Center'
                 )->setDescription('Choose the alignment of the content within the hero block.'),
             ]
         );
+
         return $fields;
     }
 
@@ -81,7 +84,7 @@ class HeroBlock extends BaseElement
 
         $validator->addValidator(RequiredFields::create([
             'Heading',
-            'ContentAlignment'
+            'ContentAlignment',
         ]));
 
         return $validator;
@@ -91,4 +94,5 @@ class HeroBlock extends BaseElement
     {
         return 'Hero block element';
     }
+
 }

@@ -3,12 +3,13 @@
 namespace App\PageTypes;
 
 use Page;
+use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
 use SilverStripe\Forms\TextareaField;
-use SilverStripe\AssetAdmin\Forms\UploadField;
 
 class ContentPage extends Page
 {
+
     private static $table_name = 'ContentPage';
 
     private static $db = [
@@ -16,7 +17,7 @@ class ContentPage extends Page
     ];
 
     private static $has_one = [
-        'HeaderImage' => Image::class
+        'HeaderImage' => Image::class,
     ];
 
     private static $defaults = [
@@ -34,7 +35,9 @@ class ContentPage extends Page
             ->setFolderName('ContentPage/HeaderImages')
             ->setAllowedFileCategories('image/supported')
             ->setTitle('Upload Header Image'));
+
         return $fields;
     }
+
 }
 // This class represents a content page type in the application.

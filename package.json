@@ -16,6 +16,7 @@
     "tailwindcss": "^4.1.3"
   },
   "devDependencies": {
+    "cypress": "^14.3.0",
     "sass": "^1.86.3",
     "vite": "^6.2.5"
   },
@@ -23,7 +24,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "watch": "vite build --watch"
+    "watch": "vite build --watch",
+    "cypress": "cypress open"
   },
   "author": "",
   "license": "ISC"

@@ -1,3 +1,13 @@
+DNADesign\Elemental\Models\ElementalArea:
+  home:
+    OwnerClassName: Page
+  contact-us:
+    OwnerClassName: Page
+  about-us:
+    OwnerClassName: page
+  test-page:
+    OwnerClassName: Page
+
 Page:
   home:
     Title: Home
@@ -14,13 +24,3 @@ Page:
     Title: Test page
     URLSegment: test-page
     ElementalArea: =>DNADesign\Elemental\Models\ElementalArea.test-page
-
-DNADesign\Elemental\Models\ElementalArea:
-  home:
-    OwnerClassName: Page
-  contact-us:
-    OwnerClassName: Page
-  about-us:
-    OwnerClassName: page
-  test-page:
-    OwnerClassName: Page

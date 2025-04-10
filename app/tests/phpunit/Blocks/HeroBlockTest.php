@@ -16,7 +16,7 @@ use SilverStripe\ORM\DataObject;
 class HeroBlockTest extends SapphireTest
 {
 
-    protected static $fixture_file = 'HeroBlockTest.yml';
+    protected static $fixture_file = 'app/fixtures/populate/populate-hero-block.yml';
 
     public function test_hero_block_table_name(): void
     {

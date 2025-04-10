@@ -42,6 +42,10 @@ class HeroBlock extends BaseElement
         'SecondaryLink',
     ];
 
+    private static array $defaults = [
+        'ContentAlignment' => 'center',
+    ];
+
     private static bool $inline_editable = false;
 
     public function getCMSFields()

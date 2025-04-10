@@ -1,0 +1,57 @@
+SilverStripe\LinkField\Models\ExternalLink:
+  link1:
+    LinkText: Learn more
+    ExternalUrl: https://www.silverstripe.co.nz
+  link2:
+    LinkText: Watch video
+    ExternalUrl: https://www.youtube.com
+
+SilverStripe\Assets\Image:
+  bg-image:
+    Title: bg-image.jpg
+    Filename: app/fixtures/assets/bg-image.jpg
+    PopulateFileFrom: app/fixtures/assets/bg-image.jpg
+
+App\Elements\HeroBlock:
+  hero1:
+    Title: Hero block with background image
+    Heading: Hero block with background image
+    MainContent: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum nesciunt cum blanditiis ducimus aspernatur. Excepturi incidunt minus aliquam explicabo eaque modi porro, placeat blanditiis. Omnis assumenda in quas eaque officiis.
+    PrimaryLinkID: =>SilverStripe\LinkField\Models\ExternalLink.link1
+    SecondaryLinkID: =>SilverStripe\LinkField\Models\ExternalLink.link2
+    BackgroundImage: =>SilverStripe\Assets\Image.bg-image
+    Parent: =>DNADesign\Elemental\Models\ElementalArea.test-page
+  hero2:
+    Title: Hero block without background image
+    Heading: Hero block without background image
+    MainContent: Excepteur qui enim officia anim reprehenderit commodo elit sint minim ullamco elit consectetur. Ex commodo do minim laborum do occaecat esse quis dolor. Magna proident consequat in cupidatat quis ut tempor sunt id aliquip culpa est. Adipisicing velit veniam est labore qui.
+    PrimaryLinkID: =>SilverStripe\LinkField\Models\ExternalLink.link1
+    Parent: =>DNADesign\Elemental\Models\ElementalArea.test-page
+  hero3:
+    Title: Hero block with left aligned text
+    Heading: Hero block with left aligned text
+    MainContent: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum nesciunt cum blanditiis ducimus aspernatur. Excepturi incidunt minus aliquam explicabo eaque modi porro, placeat blanditiis. Omnis assumenda in quas eaque officiis.
+    PrimaryLinkID: =>SilverStripe\LinkField\Models\ExternalLink.link1
+    SecondaryLinkID: =>SilverStripe\LinkField\Models\ExternalLink.link2
+    BackgroundImage: =>SilverStripe\Assets\Image.bg-image
+    ContentAlignment: left
+    Parent: =>DNADesign\Elemental\Models\ElementalArea.test-page
+  hero4:
+    Title: Hero block with right aligned text
+    Heading: Hero block with right aligned text
+    MainContent: Proident Lorem ex laborum consectetur irure magna culpa minim enim occaecat irure cupidatat tempor aliqua. Aute non veniam ex amet aute sit officia eu pariatur amet ad. Sint ex est pariatur proident aute nostrud ea sint aute. Occaecat in minim veniam officia fugiat aliqua eu voluptate velit eiusmod duis incididunt.
+    PrimaryLinkID: =>SilverStripe\LinkField\Models\ExternalLink.link1
+    SecondaryLinkID: =>SilverStripe\LinkField\Models\ExternalLink.link2
+    BackgroundImage: =>SilverStripe\Assets\Image.bg-image
+    ContentAlignment: right
+    Parent: =>DNADesign\Elemental\Models\ElementalArea.test-page
+  hero5:
+    Title: Hero block with background color
+    Heading: Hero block with background color
+    MainContent: Consequat eu labore est veniam. Non nulla reprehenderit incididunt elit. Veniam dolore Lorem mollit sit aliqua.
+    PrimaryLinkID: =>SilverStripe\LinkField\Models\ExternalLink.link1
+    SecondaryLinkID: =>SilverStripe\LinkField\Models\ExternalLink.link2
+    BackgroundColor: '#000'
+    TextColor: '#fff'
+    ContentAlignment: left
+    Parent: =>DNADesign\Elemental\Models\ElementalArea.test-page

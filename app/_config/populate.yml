@@ -1,0 +1,10 @@
+DNADesign\Populate\Populate:
+  include_yaml_fixtures:
+    - 'app/fixtures/populate/populate-pages.yml'
+    - 'app/fixtures/populate/populate-hero-block.yml'
+  truncate_objects:
+    - Page
+    - DNADesign\Elemental\Models\ElementalArea
+    - SilverStripe\LinkField\Models\ExternalLink
+    - SilverStripe\Assets\Image
+    - App\Elements\HeroBlock

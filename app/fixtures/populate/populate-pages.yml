@@ -1,0 +1,26 @@
+Page:
+  home:
+    Title: Home
+    URLSegment: home
+    ElementalArea: =>DNADesign\Elemental\Models\ElementalArea.home
+  contact:
+    Title: Contact us
+    ElementalArea: =>DNADesign\Elemental\Models\ElementalArea.contact-us
+  about-us:
+    Title: About us
+    URLSegment: about-us
+    ElementalArea: =>DNADesign\Elemental\Models\ElementalArea.about-us
+  test-page:
+    Title: Test page
+    URLSegment: test-page
+    ElementalArea: =>DNADesign\Elemental\Models\ElementalArea.test-page
+
+DNADesign\Elemental\Models\ElementalArea:
+  home:
+    OwnerClassName: Page
+  contact-us:
+    OwnerClassName: Page
+  about-us:
+    OwnerClassName: page
+  test-page:
+    OwnerClassName: Page

@@ -24,7 +24,7 @@ class HeroBlock extends BaseElement
 
     private static array $db = [
         'Heading' => 'Varchar(255)',
-        'Summary' => 'Text',
+        'MainContent' => 'Text',
         'BackgroundColor' => 'Varchar(7)',
         'TextColor' => 'Varchar(7)',
         'ContentAlignment' => 'Enum("Left, Center, Right", "Center")',
@@ -52,16 +52,17 @@ class HeroBlock extends BaseElement
             'Root.Main',
             [
                 TextField::create('Heading', 'Heading'),
-                TextareaField::create('Summary', 'Summary'),
+                TextareaField::create('MainContent', 'MainContent'),
                 UploadField::create('BackgroundImage', 'BackgroundImage'),
 
                 LinkField::create('PrimaryLinkID', 'Primary Link'),
                 LinkField::create('SecondaryLinkID', 'Secondary Link'),
 
-                TextField::create('BackgroundColor', 'Background Color')->setDescription(
-                    'Hex color code (e.g. #FFFFFF)'
-                ),
-                TextField::create('TextColor', 'Text Color')->setDescription('Hex color code (e.g. #FFFFFF)'),
+                TextField::create('BackgroundColor', 'Background Color')
+                    ->setDescription('Hex color code (e.g. #FFFFFF)'),
+                TextField::create('TextColor', 'Text Color')
+                    ->setDescription('Hex color code (e.g. #FFFFFF)'),
+
                 DropdownField::create(
                     'ContentAlignment',
                     'Content Alignment',

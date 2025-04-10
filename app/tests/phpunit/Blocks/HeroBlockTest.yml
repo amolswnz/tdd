@@ -26,7 +26,7 @@ App\Elements\HeroBlock:
   hero1:
     Title: Test Hero Element
     Heading: Cillum et occaecat sit ea irure.
-    Content: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum nesciunt cum blanditiis ducimus aspernatur. Excepturi incidunt minus aliquam explicabo eaque modi porro, placeat blanditiis. Omnis assumenda in quas eaque officiis.
+    MainContent: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum nesciunt cum blanditiis ducimus aspernatur. Excepturi incidunt minus aliquam explicabo eaque modi porro, placeat blanditiis. Omnis assumenda in quas eaque officiis.
     PrimaryLinkID: =>SilverStripe\LinkField\Models\ExternalLink.link1
     SecondaryLinkID: =>SilverStripe\LinkField\Models\ExternalLink.link2
     BackgroundImage: =>SilverStripe\Assets\Image.bg-image
@@ -34,5 +34,5 @@ App\Elements\HeroBlock:
   hero2:
     Title: Test Hero Element
     Heading: This is a heading
-    Content: This is a summary field
+    MainContent: This is a main content field
     Parent: =>DNADesign\Elemental\Models\ElementalArea.test-page--blocks

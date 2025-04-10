@@ -40,7 +40,7 @@ class HeroBlockTest extends SapphireTest
 
         $expectedInstances = [
             'Heading' => TextField::class,
-            'Summary' => TextareaField::class,
+            'MainContent' => TextareaField::class,
             'BackgroundImage' => UploadField::class,
             'PrimaryLinkID' => LinkField::class,
             'SecondaryLinkID' => LinkField::class,
@@ -67,6 +67,21 @@ class HeroBlockTest extends SapphireTest
 
         $this->assertInstanceOf(RequiredFields::class, $requiredFields);
         $this->assertEquals(['Heading', 'ContentAlignment'], $requiredFields->getRequired());
+    }
+
+    public function test_populate_data(): void
+    {
+
+        $hero = $this->objFromFixture(HeroBlock::class, 'hero1');
+        $this->assertEquals('Cillum et occaecat sit ea irure.', $hero->Heading);
+        $this->assertEquals(
+            'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum nesciunt cum blanditiis ducimus aspernatur. Excepturi incidunt minus aliquam explicabo eaque modi porro, placeat blanditiis. Omnis assumenda in quas eaque officiis.',
+            $hero->MainContent
+        );
+        $this->assertEquals('Center', $hero->ContentAlignment);
+        $this->assertNotNull($hero->BackgroundImage());
+        $this->assertEquals('Learn more', $hero->PrimaryLink()->Title);
+        $this->assertEquals('Watch video', $hero->SecondaryLink()->Title);
     }
 
 }

@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:ignoreFile
 namespace {
 
     use SilverStripe\CMS\Controllers\ContentController;

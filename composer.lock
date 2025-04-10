@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b48758d4a0829b5c1d6d263825118fb2",
+    "content-hash": "3f3d0190b5ea0502ccc14c8dafee7b56",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -229,17 +229,95 @@
             "time": "2024-06-24T20:46:46+00:00"
         },
         {
-            "name": "dnadesign/silverstripe-elemental",
-            "version": "5.3.10",
+            "name": "dealerdirect/phpcodesniffer-composer-installer",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/silverstripe/silverstripe-elemental.git",
-                "reference": "7a847e30af659f29e9f84133a1128236f7e47ba9"
+                "url": "https://github.com/PHPCSStandards/composer-installer.git",
+                "reference": "4be43904336affa5c2f70744a348312336afd0da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silverstripe/silverstripe-elemental/zipball/7a847e30af659f29e9f84133a1128236f7e47ba9",
-                "reference": "7a847e30af659f29e9f84133a1128236f7e47ba9",
+                "url": "https://api.github.com/repos/PHPCSStandards/composer-installer/zipball/4be43904336affa5c2f70744a348312336afd0da",
+                "reference": "4be43904336affa5c2f70744a348312336afd0da",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0 || ^2.0",
+                "php": ">=5.4",
+                "squizlabs/php_codesniffer": "^2.0 || ^3.1.0 || ^4.0"
+            },
+            "require-dev": {
+                "composer/composer": "*",
+                "ext-json": "*",
+                "ext-zip": "*",
+                "php-parallel-lint/php-parallel-lint": "^1.3.1",
+                "phpcompatibility/php-compatibility": "^9.0",
+                "yoast/phpunit-polyfills": "^1.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "PHPCSStandards\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "PHPCSStandards\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Franck Nijhof",
+                    "email": "franck.nijhof@dealerdirect.com",
+                    "homepage": "http://www.frenck.nl",
+                    "role": "Developer / IT Manager"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/PHPCSStandards/composer-installer/graphs/contributors"
+                }
+            ],
+            "description": "PHP_CodeSniffer Standards Composer Installer Plugin",
+            "homepage": "http://www.dealerdirect.com",
+            "keywords": [
+                "PHPCodeSniffer",
+                "PHP_CodeSniffer",
+                "code quality",
+                "codesniffer",
+                "composer",
+                "installer",
+                "phpcbf",
+                "phpcs",
+                "plugin",
+                "qa",
+                "quality",
+                "standard",
+                "standards",
+                "style guide",
+                "stylecheck",
+                "tests"
+            ],
+            "support": {
+                "issues": "https://github.com/PHPCSStandards/composer-installer/issues",
+                "source": "https://github.com/PHPCSStandards/composer-installer"
+            },
+            "time": "2023-01-05T11:28:13+00:00"
+        },
+        {
+            "name": "dnadesign/silverstripe-elemental",
+            "version": "5.3.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/silverstripe/silverstripe-elemental.git",
+                "reference": "34ff4ed498ccab94cc5f55ef9a56c37f491eda1d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/silverstripe/silverstripe-elemental/zipball/34ff4ed498ccab94cc5f55ef9a56c37f491eda1d",
+                "reference": "34ff4ed498ccab94cc5f55ef9a56c37f491eda1d",
                 "shasum": ""
             },
             "require": {
@@ -299,9 +377,9 @@
             ],
             "support": {
                 "issues": "https://github.com/silverstripe/silverstripe-elemental/issues",
-                "source": "https://github.com/silverstripe/silverstripe-elemental/tree/5.3.10"
+                "source": "https://github.com/silverstripe/silverstripe-elemental/tree/5.3.12"
             },
-            "time": "2025-03-23T21:33:51+00:00"
+            "time": "2025-04-09T22:25:23+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -1732,6 +1810,215 @@
             "time": "2023-11-29T20:28:41+00:00"
         },
         {
+            "name": "php-parallel-lint/php-console-color",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-parallel-lint/PHP-Console-Color.git",
+                "reference": "7adfefd530aa2d7570ba87100a99e2483a543b88"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-parallel-lint/PHP-Console-Color/zipball/7adfefd530aa2d7570ba87100a99e2483a543b88",
+                "reference": "7adfefd530aa2d7570ba87100a99e2483a543b88",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "replace": {
+                "jakub-onderka/php-console-color": "*"
+            },
+            "require-dev": {
+                "php-parallel-lint/php-code-style": "^2.0",
+                "php-parallel-lint/php-parallel-lint": "^1.0",
+                "php-parallel-lint/php-var-dump-check": "0.*",
+                "phpunit/phpunit": "^4.8.36 || ^5.7.21 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHP_Parallel_Lint\\PhpConsoleColor\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Jakub Onderka",
+                    "email": "jakub.onderka@gmail.com"
+                }
+            ],
+            "description": "Simple library for creating colored console ouput.",
+            "support": {
+                "issues": "https://github.com/php-parallel-lint/PHP-Console-Color/issues",
+                "source": "https://github.com/php-parallel-lint/PHP-Console-Color/tree/v1.0.1"
+            },
+            "time": "2021-12-25T06:49:29+00:00"
+        },
+        {
+            "name": "php-parallel-lint/php-console-highlighter",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-parallel-lint/PHP-Console-Highlighter.git",
+                "reference": "5b4803384d3303cf8e84141039ef56c8a123138d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-parallel-lint/PHP-Console-Highlighter/zipball/5b4803384d3303cf8e84141039ef56c8a123138d",
+                "reference": "5b4803384d3303cf8e84141039ef56c8a123138d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "php": ">=5.3.2",
+                "php-parallel-lint/php-console-color": "^1.0.1"
+            },
+            "replace": {
+                "jakub-onderka/php-console-highlighter": "*"
+            },
+            "require-dev": {
+                "php-parallel-lint/php-code-style": "^2.0",
+                "php-parallel-lint/php-parallel-lint": "^1.0",
+                "php-parallel-lint/php-var-dump-check": "0.*",
+                "phpunit/phpunit": "^4.8.36 || ^5.7.21 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHP_Parallel_Lint\\PhpConsoleHighlighter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jakub Onderka",
+                    "email": "acci@acci.cz",
+                    "homepage": "http://www.acci.cz/"
+                }
+            ],
+            "description": "Highlight PHP code in terminal",
+            "support": {
+                "issues": "https://github.com/php-parallel-lint/PHP-Console-Highlighter/issues",
+                "source": "https://github.com/php-parallel-lint/PHP-Console-Highlighter/tree/v1.0.0"
+            },
+            "time": "2022-02-18T08:23:19+00:00"
+        },
+        {
+            "name": "php-parallel-lint/php-parallel-lint",
+            "version": "v1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-parallel-lint/PHP-Parallel-Lint.git",
+                "reference": "6db563514f27e19595a19f45a4bf757b6401194e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-parallel-lint/PHP-Parallel-Lint/zipball/6db563514f27e19595a19f45a4bf757b6401194e",
+                "reference": "6db563514f27e19595a19f45a4bf757b6401194e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.3.0"
+            },
+            "replace": {
+                "grogy/php-parallel-lint": "*",
+                "jakub-onderka/php-parallel-lint": "*"
+            },
+            "require-dev": {
+                "nette/tester": "^1.3 || ^2.0",
+                "php-parallel-lint/php-console-highlighter": "0.* || ^1.0",
+                "squizlabs/php_codesniffer": "^3.6"
+            },
+            "suggest": {
+                "php-parallel-lint/php-console-highlighter": "Highlight syntax in code snippet"
+            },
+            "bin": [
+                "parallel-lint"
+            ],
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "./src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Jakub Onderka",
+                    "email": "ahoj@jakubonderka.cz"
+                }
+            ],
+            "description": "This tool checks the syntax of PHP files about 20x faster than serial check.",
+            "homepage": "https://github.com/php-parallel-lint/PHP-Parallel-Lint",
+            "keywords": [
+                "lint",
+                "static analysis"
+            ],
+            "support": {
+                "issues": "https://github.com/php-parallel-lint/PHP-Parallel-Lint/issues",
+                "source": "https://github.com/php-parallel-lint/PHP-Parallel-Lint/tree/v1.4.0"
+            },
+            "time": "2024-03-27T12:14:49+00:00"
+        },
+        {
+            "name": "phpstan/phpdoc-parser",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpdoc-parser.git",
+                "reference": "9b30d6fd026b2c132b3985ce6b23bec09ab3aa68"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/9b30d6fd026b2c132b3985ce6b23bec09ab3aa68",
+                "reference": "9b30d6fd026b2c132b3985ce6b23bec09ab3aa68",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "doctrine/annotations": "^2.0",
+                "nikic/php-parser": "^5.3.0",
+                "php-parallel-lint/php-parallel-lint": "^1.2",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^2.0",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpstan/phpstan-strict-rules": "^2.0",
+                "phpunit/phpunit": "^9.6",
+                "symfony/process": "^5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHPStan\\PhpDocParser\\": [
+                        "src/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPDoc parser with support for nullable, intersection and generic types",
+            "support": {
+                "issues": "https://github.com/phpstan/phpdoc-parser/issues",
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.1.0"
+            },
+            "time": "2025-02-19T13:28:12+00:00"
+        },
+        {
             "name": "psr/cache",
             "version": "3.0.0",
             "source": {
@@ -2569,16 +2856,16 @@
         },
         {
             "name": "silverstripe/cms",
-            "version": "5.3.2",
+            "version": "5.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silverstripe/silverstripe-cms.git",
-                "reference": "4b7a56853734ef2dceb77b48cb866e4b2b4e2097"
+                "reference": "3dffd2a1f12dfecd23fbe615e7841feebd197e34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silverstripe/silverstripe-cms/zipball/4b7a56853734ef2dceb77b48cb866e4b2b4e2097",
-                "reference": "4b7a56853734ef2dceb77b48cb866e4b2b4e2097",
+                "url": "https://api.github.com/repos/silverstripe/silverstripe-cms/zipball/3dffd2a1f12dfecd23fbe615e7841feebd197e34",
+                "reference": "3dffd2a1f12dfecd23fbe615e7841feebd197e34",
                 "shasum": ""
             },
             "require": {
@@ -2637,9 +2924,9 @@
             ],
             "support": {
                 "issues": "https://github.com/silverstripe/silverstripe-cms/issues",
-                "source": "https://github.com/silverstripe/silverstripe-cms/tree/5.3.2"
+                "source": "https://github.com/silverstripe/silverstripe-cms/tree/5.3.3"
             },
-            "time": "2025-02-13T02:12:37+00:00"
+            "time": "2025-04-09T22:26:54+00:00"
         },
         {
             "name": "silverstripe/config",
@@ -2794,16 +3081,16 @@
         },
         {
             "name": "silverstripe/framework",
-            "version": "5.3.18",
+            "version": "5.3.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silverstripe/silverstripe-framework.git",
-                "reference": "b2b7125b9d3b8b81a4694160bd9da919da58f27f"
+                "reference": "c00b559f38016cc048b20843a60e6e4f614e754d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silverstripe/silverstripe-framework/zipball/b2b7125b9d3b8b81a4694160bd9da919da58f27f",
-                "reference": "b2b7125b9d3b8b81a4694160bd9da919da58f27f",
+                "url": "https://api.github.com/repos/silverstripe/silverstripe-framework/zipball/c00b559f38016cc048b20843a60e6e4f614e754d",
+                "reference": "c00b559f38016cc048b20843a60e6e4f614e754d",
                 "shasum": ""
             },
             "require": {
@@ -2923,9 +3210,9 @@
             ],
             "support": {
                 "issues": "https://github.com/silverstripe/silverstripe-framework/issues",
-                "source": "https://github.com/silverstripe/silverstripe-framework/tree/5.3.18"
+                "source": "https://github.com/silverstripe/silverstripe-framework/tree/5.3.23"
             },
-            "time": "2025-03-30T20:19:12+00:00"
+            "time": "2025-04-09T22:28:55+00:00"
         },
         {
             "name": "silverstripe/graphql",
@@ -2982,6 +3269,70 @@
                 "source": "https://github.com/silverstripe/silverstripe-graphql/tree/5.2.4"
             },
             "time": "2025-01-29T02:41:12+00:00"
+        },
+        {
+            "name": "silverstripe/linkfield",
+            "version": "4.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/silverstripe/silverstripe-linkfield.git",
+                "reference": "45f12df18a2f719866de7b3957fe1371ae97829b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/silverstripe/silverstripe-linkfield/zipball/45f12df18a2f719866de7b3957fe1371ae97829b",
+                "reference": "45f12df18a2f719866de7b3957fe1371ae97829b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1",
+                "silverstripe/admin": "^2.2",
+                "silverstripe/cms": "^5",
+                "silverstripe/framework": "^5.3",
+                "silverstripe/versioned": "^2"
+            },
+            "require-dev": {
+                "dnadesign/silverstripe-elemental": "^5",
+                "phpstan/extension-installer": "^1.3",
+                "silverstripe/documentation-lint": "^1",
+                "silverstripe/frameworktest": "^1",
+                "silverstripe/recipe-testing": "^3",
+                "silverstripe/standards": "^1",
+                "squizlabs/php_codesniffer": "^3"
+            },
+            "type": "silverstripe-vendormodule",
+            "extra": {
+                "expose": [
+                    "client/dist",
+                    "client/lang"
+                ]
+            },
+            "autoload": {
+                "psr-4": {
+                    "SilverStripe\\LinkField\\": "src/",
+                    "SilverStripe\\LinkField\\Tests\\": "tests/php/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Silverstripe",
+                    "homepage": "https://silverstripe.com"
+                },
+                {
+                    "name": "The Silverstripe Community",
+                    "homepage": "https://silverstripe.org"
+                }
+            ],
+            "description": "Link management for Silverstripe CMS",
+            "support": {
+                "issues": "https://github.com/silverstripe/silverstripe-linkfield/issues",
+                "source": "https://github.com/silverstripe/silverstripe-linkfield/tree/4.1.2"
+            },
+            "time": "2025-04-08T02:18:36+00:00"
         },
         {
             "name": "silverstripe/login-forms",
@@ -3625,6 +3976,128 @@
             "time": "2025-02-13T02:12:47+00:00"
         },
         {
+            "name": "silverstripeltd/bespoke-standards",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/silverstripeltd/bespoke-standards.git",
+                "reference": "e06077e65b523fd7e5b2d88355027464d97d80ae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/silverstripeltd/bespoke-standards/zipball/e06077e65b523fd7e5b2d88355027464d97d80ae",
+                "reference": "e06077e65b523fd7e5b2d88355027464d97d80ae",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0",
+                "php-parallel-lint/php-console-highlighter": "^1.0",
+                "php-parallel-lint/php-parallel-lint": "^1.3",
+                "slevomat/coding-standard": "^8.16"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "bin": [
+                "bespoke-phpcbf",
+                "bespoke-phpcs",
+                "bespoke-phpcs-report-source",
+                "bespoke-phpcs-report-summary",
+                "bespoke-phplint"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Silverstripe\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nate Devereux",
+                    "email": "nate.devereux@silverstripe.com"
+                },
+                {
+                    "name": "Mo Alsharaf",
+                    "email": "mohamed.alsharaf@silverstripe.com"
+                }
+            ],
+            "description": "The Silverstripe ltd bespoke project backend standards",
+            "support": {
+                "issues": "https://github.com/silverstripeltd/bespoke-standards/issues",
+                "source": "https://github.com/silverstripeltd/bespoke-standards/tree/1.4.0"
+            },
+            "time": "2025-03-26T09:27:30+00:00"
+        },
+        {
+            "name": "slevomat/coding-standard",
+            "version": "8.16.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/slevomat/coding-standard.git",
+                "reference": "8bf0408a9cf30687d87957d364de9a3d5d00d948"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/8bf0408a9cf30687d87957d364de9a3d5d00d948",
+                "reference": "8bf0408a9cf30687d87957d364de9a3d5d00d948",
+                "shasum": ""
+            },
+            "require": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2 || ^0.7 || ^1.0",
+                "php": "^7.4 || ^8.0",
+                "phpstan/phpdoc-parser": "^2.1.0",
+                "squizlabs/php_codesniffer": "^3.11.3"
+            },
+            "require-dev": {
+                "phing/phing": "3.0.1",
+                "php-parallel-lint/php-parallel-lint": "1.4.0",
+                "phpstan/phpstan": "2.1.11",
+                "phpstan/phpstan-deprecation-rules": "2.0.1",
+                "phpstan/phpstan-phpunit": "2.0.6",
+                "phpstan/phpstan-strict-rules": "2.0.4",
+                "phpunit/phpunit": "9.6.8|10.5.45|11.4.4|11.5.15|12.0.10"
+            },
+            "type": "phpcodesniffer-standard",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "8.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SlevomatCodingStandard\\": "SlevomatCodingStandard/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Slevomat Coding Standard for PHP_CodeSniffer complements Consistence Coding Standard by providing sniffs with additional checks.",
+            "keywords": [
+                "dev",
+                "phpcs"
+            ],
+            "support": {
+                "issues": "https://github.com/slevomat/coding-standard/issues",
+                "source": "https://github.com/slevomat/coding-standard/tree/8.16.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/kukulich",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/slevomat/coding-standard",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-03-27T19:37:58+00:00"
+        },
+        {
             "name": "sminnee/callbacklist",
             "version": "0.1.1",
             "source": {
@@ -3671,6 +4144,90 @@
                 "source": "https://github.com/sminnee/callbacklist/tree/0.1.1"
             },
             "time": "2020-12-06T22:00:29+00:00"
+        },
+        {
+            "name": "squizlabs/php_codesniffer",
+            "version": "3.12.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
+                "reference": "ea16a1f3719783345febd3aab41beb55c8c84bfd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/ea16a1f3719783345febd3aab41beb55c8c84bfd",
+                "reference": "ea16a1f3719783345febd3aab41beb55c8c84bfd",
+                "shasum": ""
+            },
+            "require": {
+                "ext-simplexml": "*",
+                "ext-tokenizer": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.3.4"
+            },
+            "bin": [
+                "bin/phpcbf",
+                "bin/phpcs"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Greg Sherwood",
+                    "role": "Former lead"
+                },
+                {
+                    "name": "Juliette Reinders Folmer",
+                    "role": "Current lead"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/PHPCSStandards/PHP_CodeSniffer/graphs/contributors"
+                }
+            ],
+            "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
+            "homepage": "https://github.com/PHPCSStandards/PHP_CodeSniffer",
+            "keywords": [
+                "phpcs",
+                "standards",
+                "static analysis"
+            ],
+            "support": {
+                "issues": "https://github.com/PHPCSStandards/PHP_CodeSniffer/issues",
+                "security": "https://github.com/PHPCSStandards/PHP_CodeSniffer/security/policy",
+                "source": "https://github.com/PHPCSStandards/PHP_CodeSniffer",
+                "wiki": "https://github.com/PHPCSStandards/PHP_CodeSniffer/wiki"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/PHPCSStandards",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/jrfnl",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/php_codesniffer",
+                    "type": "open_collective"
+                },
+                {
+                    "url": "https://thanks.dev/u/gh/phpcsstandards",
+                    "type": "thanks_dev"
+                }
+            ],
+            "time": "2025-04-04T12:57:55+00:00"
         },
         {
             "name": "symbiote/silverstripe-gridfieldextensions",
@@ -5699,6 +6256,66 @@
     ],
     "packages-dev": [
         {
+            "name": "dnadesign/silverstripe-populate",
+            "version": "3.0.0-beta1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/silverstripe/silverstripe-populate.git",
+                "reference": "af2a44c3cc8b09a067153373ac877c0baa9c175b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/silverstripe/silverstripe-populate/zipball/af2a44c3cc8b09a067153373ac877c0baa9c175b",
+                "reference": "af2a44c3cc8b09a067153373ac877c0baa9c175b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1",
+                "silverstripe/framework": "^5",
+                "silverstripe/versioned": "^2"
+            },
+            "require-dev": {
+                "silverstripe/recipe-testing": "^3",
+                "squizlabs/php_codesniffer": "^3.0"
+            },
+            "type": "silverstripe-vendormodule",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "DNADesign\\Populate\\": "code/",
+                    "DNADesign\\Populate\\Tests\\": "tests/php/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Will Rossiter",
+                    "email": "will@fullscreen.io"
+                }
+            ],
+            "description": "Populate your database through YAML files",
+            "keywords": [
+                "Fixture",
+                "faker",
+                "mock",
+                "populate",
+                "silverstripe",
+                "yaml"
+            ],
+            "support": {
+                "issues": "https://github.com/silverstripe/silverstripe-populate/issues",
+                "source": "https://github.com/silverstripe/silverstripe-populate/tree/3.0.0-beta1"
+            },
+            "time": "2023-07-02T19:48:06+00:00"
+        },
+        {
             "name": "doctrine/instantiator",
             "version": "2.0.0",
             "source": {
@@ -7319,6 +7936,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "dnadesign/silverstripe-populate": 10,
         "silverstripe-themes/simple": 0,
         "silverstripe/login-forms": 0,
         "silverstripe/recipe-cms": 0,

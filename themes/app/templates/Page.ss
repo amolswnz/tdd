@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-NZ">
+<html lang="en-NZ" class="h-full">
 <head>
     <% base_tag %>
     <title>$Title | $SiteConfig.Title</title>
@@ -11,15 +11,15 @@
     <script src="$themedResourceURL('dist/main.js')" type="module" defer></script>
 </head>
 <body class="page $ClassName">
-    <div id="app" v-cloak>
+    <div id="app" v-cloak class="flex flex-col min-h-screen">
         <%-- <% include SiteBanners %> --%>
         <% include Header %>
 
-        <main id="main" class="p-8 bg-white/40">
+        <main id="main" class="flex-1 p-8 bg-gray-50/40">
             $Layout
         </main>
 
         <% include Footer %>
     </div>
-    </body>
+</body>
 </html>

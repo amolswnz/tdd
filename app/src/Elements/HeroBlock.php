@@ -27,7 +27,7 @@ class HeroBlock extends BaseElement
         'MainContent' => 'Text',
         'BackgroundColor' => 'Varchar(7)',
         'TextColor' => 'Varchar(7)',
-        'ContentAlignment' => 'Enum("Left, Center, Right", "Center")',
+        'ContentAlignment' => 'Enum("left, center, right", "center")',
     ];
 
     private static array $has_one = [
@@ -48,6 +48,11 @@ class HeroBlock extends BaseElement
     {
         $fields = parent::getCMSFields();
 
+        $fields->removeByName([
+            'PrimaryLinkID',
+            'SecondaryLinkID',
+        ]);
+
         $fields->addFieldsToTab(
             'Root.Main',
             [
@@ -55,8 +60,8 @@ class HeroBlock extends BaseElement
                 TextareaField::create('MainContent', 'MainContent'),
                 UploadField::create('BackgroundImage', 'BackgroundImage'),
 
-                LinkField::create('PrimaryLinkID', 'Primary Link'),
-                LinkField::create('SecondaryLinkID', 'Secondary Link'),
+                LinkField::create('PrimaryLink', 'Primary Link'),
+                LinkField::create('SecondaryLink', 'Secondary Link'),
 
                 TextField::create('BackgroundColor', 'Background Color')
                     ->setDescription('Hex color code (e.g. #FFFFFF)'),
@@ -67,12 +72,14 @@ class HeroBlock extends BaseElement
                     'ContentAlignment',
                     'Content Alignment',
                     [
-                        'Left' => 'Left',
-                        'Center' => 'Center',
-                        'Right' => 'Right',
+                        'left' => 'Left align',
+                        'center' => 'Center align',
+                        'right' => 'Right align',
                     ],
-                    'Center'
-                )->setDescription('Choose the alignment of the content within the hero block.'),
+                    'center'
+                )
+                    ->setEmptyString('Select an alignment')
+                    ->setDescription('Choose the alignment of the content within the hero block.'),
             ]
         );
 

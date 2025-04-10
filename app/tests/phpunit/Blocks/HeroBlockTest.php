@@ -42,8 +42,8 @@ class HeroBlockTest extends SapphireTest
             'Heading' => TextField::class,
             'MainContent' => TextareaField::class,
             'BackgroundImage' => UploadField::class,
-            'PrimaryLinkID' => LinkField::class,
-            'SecondaryLinkID' => LinkField::class,
+            'PrimaryLink' => LinkField::class,
+            'SecondaryLink' => LinkField::class,
             'BackgroundColor' => TextField::class,
             'TextColor' => TextField::class,
             'ContentAlignment' => DropdownField::class,
@@ -78,7 +78,7 @@ class HeroBlockTest extends SapphireTest
             'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum nesciunt cum blanditiis ducimus aspernatur. Excepturi incidunt minus aliquam explicabo eaque modi porro, placeat blanditiis. Omnis assumenda in quas eaque officiis.',
             $hero->MainContent
         );
-        $this->assertEquals('Center', $hero->ContentAlignment);
+        $this->assertEquals('center', $hero->ContentAlignment);
         $this->assertNotNull($hero->BackgroundImage());
         $this->assertEquals('Learn more', $hero->PrimaryLink()->Title);
         $this->assertEquals('Watch video', $hero->SecondaryLink()->Title);

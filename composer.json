@@ -4,15 +4,16 @@
     "description": "The SilverStripe Framework Installer",
     "require": {
         "php": "^8.3",
-        "silverstripe/recipe-plugin": "^2.0",
-        "silverstripe/vendor-plugin": "^2.0",
-        "silverstripe/recipe-cms": "^5.3",
+        "silverstripe/vendor-plugin": "^3.0",
+        "silverstripe/recipe-cms": "^6.3",
         "silverstripe-themes/simple": "^3.3",
-        "silverstripe/login-forms": "^5.3",
-        "dnadesign/silverstripe-elemental": "^5.3"
+        "silverstripe/login-forms": "^6.3",
+        "dnadesign/silverstripe-elemental": "^6.3"
     },
     "require-dev": {
-
+        "wernerkrauss/silverstripe-rector": "^1",
+        "phpunit/phpunit": "^11.5",
+        "silverstripeltd/bespoke-standards": "^1.4"
     },
     "extra": {
         "project-files-installed": [
@@ -37,7 +38,8 @@
         "allow-plugins": {
             "composer/installers": true,
             "silverstripe/recipe-plugin": true,
-            "silverstripe/vendor-plugin": true
+            "silverstripe/vendor-plugin": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "prefer-stable": true,

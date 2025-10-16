@@ -23,7 +23,7 @@ class ContentPage extends Page
         'ExtraContent' => '<p>Default content goes here.</p>',
     ];
 
-    private static $description = 'A page that contains content.';
+    private static $class_description = 'A page that contains content.';
 
     public function getCMSFields()
     {

@@ -1,0 +1,11 @@
+---
+Name: freshservice-routes
+After: '#rootroutes'
+---
+SilverStripe\Control\Director:
+  rules:
+    # FreshService API routes - standalone controller
+    'api/freshservice//$Action/$ID/$OtherID': 'App\Controllers\FreshServiceController'
+    'api/freshservice/$Action/$ID': 'App\Controllers\FreshServiceController'
+    'api/freshservice/$Action': 'App\Controllers\FreshServiceController'
+    'api/freshservice': 'App\Controllers\FreshServiceController'

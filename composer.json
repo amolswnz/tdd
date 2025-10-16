@@ -8,7 +8,8 @@
         "silverstripe/recipe-cms": "^6.3",
         "silverstripe-themes/simple": "^3.3",
         "silverstripe/login-forms": "^6.3",
-        "dnadesign/silverstripe-elemental": "^6.3"
+        "dnadesign/silverstripe-elemental": "^6.3",
+        "guzzlehttp/guzzle": "^7.0"
     },
     "require-dev": {
         "wernerkrauss/silverstripe-rector": "^1",
@@ -41,6 +42,10 @@
             "silverstripe/vendor-plugin": true,
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
+    },
+    "scripts": {
+        "phpcs": "bespoke-phpcs",
+        "phpcbf": "bespoke-phpcbf"
     },
     "prefer-stable": true,
     "minimum-stability": "dev"

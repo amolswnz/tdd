@@ -263,7 +263,6 @@ class FreshServiceController extends Controller
 
         return [
             'IsConfigured' => $siteConfig->isFreshServiceConfigured(),
-            'Domain' => $siteConfig->FreshServiceDomain,
             'ApiUrl' => $siteConfig->getFreshServiceApiUrl(),
             'HasApiKey' => $siteConfig->FreshServiceAPIKey !== null && $siteConfig->FreshServiceAPIKey !== '',
             'CanAccess' => $this->canAccessAPI(),

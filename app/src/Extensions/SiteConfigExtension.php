@@ -21,7 +21,6 @@ class SiteConfigExtension extends Extension
     private static array $db = [
         'FreshServiceAPIEndpoint' => 'Varchar(255)',
         'FreshServiceAPIKey' => 'Varchar(255)',
-        'FreshServiceDomain' => 'Varchar(255)',
     ];
 
     /**
@@ -32,10 +31,8 @@ class SiteConfigExtension extends Extension
         // Add a new tab for FreshService configuration
         $fields->addFieldsToTab('Root.FreshService', [
             HeaderField::create('FreshServiceHeader', 'FreshService API Configuration'),
-            TextField::create('FreshServiceDomain', 'FreshService Domain')
-                ->setDescription('Your FreshService domain (e.g., yourcompany.freshservice.com)'),
             TextField::create('FreshServiceAPIEndpoint', 'API Endpoint')
-                ->setDescription('The FreshService API endpoint URL'),
+                ->setDescription('The FreshService API endpoint URL (e.g., https://yourcompany.freshservice.com/api/v2)'),
             TextField::create('FreshServiceAPIKey', 'API Key')
                 ->setDescription('Your FreshService API key for authentication')
                 ->setAttribute('type', 'password'),
@@ -47,23 +44,17 @@ class SiteConfigExtension extends Extension
      */
     public function getFreshServiceApiUrl(): ?string
     {
-        $domain = $this->getOwner()->FreshServiceDomain;
         $endpoint = $this->getOwner()->FreshServiceAPIEndpoint;
-
-        if (!$domain || !$endpoint) {
+        if (!$endpoint) {
             return null;
         }
-
-        // Ensure domain has proper protocol
-        if (!preg_match('/^https?:\/\//', $domain)) {
-            $domain = 'https://' . $domain;
+        // Ensure endpoint has proper protocol
+        if (!preg_match('/^https?:\/\//', $endpoint)) {
+            $endpoint = 'https://' . ltrim($endpoint, '/');
         }
-
-        // Remove trailing slash from domain and leading slash from endpoint if present
-        $domain = rtrim($domain, '/');
-        $endpoint = ltrim($endpoint, '/');
-
-        return $domain . '/' . $endpoint;
+        // Remove trailing slash
+        $endpoint = rtrim($endpoint, '/');
+        return $endpoint;
     }
 
     /**
@@ -72,9 +63,7 @@ class SiteConfigExtension extends Extension
     public function isFreshServiceConfigured(): bool
     {
         $owner = $this->getOwner();
-
-        return ($owner->FreshServiceDomain !== null && $owner->FreshServiceDomain !== '')
-            && ($owner->FreshServiceAPIEndpoint !== null && $owner->FreshServiceAPIEndpoint !== '')
+        return ($owner->FreshServiceAPIEndpoint !== null && $owner->FreshServiceAPIEndpoint !== '')
             && ($owner->FreshServiceAPIKey !== null && $owner->FreshServiceAPIKey !== '');
     }
 

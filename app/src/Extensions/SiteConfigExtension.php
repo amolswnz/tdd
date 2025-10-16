@@ -2,10 +2,10 @@
 
 namespace App\Extensions;
 
-use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\TextField;
-use SilverStripe\Forms\HeaderField;
 use SilverStripe\Core\Extension;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\HeaderField;
+use SilverStripe\Forms\TextField;
 
 /**
  * SiteConfigExtension
@@ -14,10 +14,11 @@ use SilverStripe\Core\Extension;
  */
 class SiteConfigExtension extends Extension
 {
+
     /**
      * Database fields for this extension
      */
-    private static $db = [
+    private static array $db = [
         'FreshServiceAPIEndpoint' => 'Varchar(255)',
         'FreshServiceAPIKey' => 'Varchar(255)',
         'FreshServiceDomain' => 'Varchar(255)',
@@ -46,8 +47,8 @@ class SiteConfigExtension extends Extension
      */
     public function getFreshServiceApiUrl(): ?string
     {
-        $domain = $this->owner->FreshServiceDomain;
-        $endpoint = $this->owner->FreshServiceAPIEndpoint;
+        $domain = $this->getOwner()->FreshServiceDomain;
+        $endpoint = $this->getOwner()->FreshServiceAPIEndpoint;
 
         if (!$domain || !$endpoint) {
             return null;
@@ -70,8 +71,11 @@ class SiteConfigExtension extends Extension
      */
     public function isFreshServiceConfigured(): bool
     {
-        return !empty($this->owner->FreshServiceDomain)
-            && !empty($this->owner->FreshServiceAPIEndpoint)
-            && !empty($this->owner->FreshServiceAPIKey);
+        $owner = $this->getOwner();
+
+        return ($owner->FreshServiceDomain !== null && $owner->FreshServiceDomain !== '')
+            && ($owner->FreshServiceAPIEndpoint !== null && $owner->FreshServiceAPIEndpoint !== '')
+            && ($owner->FreshServiceAPIKey !== null && $owner->FreshServiceAPIKey !== '');
     }
+
 }

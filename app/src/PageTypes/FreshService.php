@@ -3,10 +3,9 @@
 namespace App\PageTypes;
 
 use Page;
-use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\LiteralField;
+use SilverStripe\SiteConfig\SiteConfig;
 
 /**
  * FreshService page type
@@ -15,30 +14,31 @@ use SilverStripe\Forms\LiteralField;
  */
 class FreshService extends Page
 {
+
     /**
      * Singular name for this page type
      */
-    private static $singular_name = 'FreshService Page';
+    private static string $singular_name = 'FreshService Page';
 
     /**
      * Plural name for this page type
      */
-    private static $plural_name = 'FreshService Pages';
+    private static string $plural_name = 'FreshService Pages';
 
     /**
      * Description shown in the CMS
      */
-    private static $class_description = 'A page for FreshService content and functionality';
+    private static string $class_description = 'A page for FreshService content and functionality';
 
     /**
      * Table name for this page type
      */
-    private static $table_name = 'FreshServicePage';
+    private static string $table_name = 'FreshServicePage';
 
     /**
      * Database fields for this page type
      */
-    private static $db = [
+    private static array $db = [
         // Add custom fields here as needed
         // 'CustomField' => 'Varchar(255)',
     ];
@@ -46,28 +46,28 @@ class FreshService extends Page
     /**
      * Has one relationships
      */
-    private static $has_one = [
+    private static array $has_one = [
         // Add has_one relationships here as needed
     ];
 
     /**
      * Has many relationships
      */
-    private static $has_many = [
+    private static array $has_many = [
         // Add has_many relationships here as needed
     ];
 
     /**
      * Many many relationships
      */
-    private static $many_many = [
+    private static array $many_many = [
         // Add many_many relationships here as needed
     ];
 
     /**
      * CMS Fields for this page type
      */
-    public function getCMSFields()
+    public function getCMSFields(): FieldList
     {
         $fields = parent::getCMSFields();
 
@@ -75,13 +75,11 @@ class FreshService extends Page
         $siteConfig = SiteConfig::current_site_config();
         $apiConfigured = $siteConfig->isFreshServiceConfigured();
 
-        if ($apiConfigured) {
-            $statusMessage = '<div class="alert alert-success">FreshService API is configured. Endpoint: ' .
-                           $siteConfig->getFreshServiceApiUrl() . '</div>';
-        } else {
-            $statusMessage = '<div class="alert alert-warning">FreshService API is not fully configured. ' .
-                           'Please configure the API settings in <a href="/admin/settings">Site Settings</a>.</div>';
-        }
+        $statusMessage = $apiConfigured
+            ? '<div class="alert alert-success">FreshService API is configured. '
+            . 'Endpoint: ' . $siteConfig->getFreshServiceApiUrl() . '</div>'
+            : '<div class="alert alert-warning">FreshService API is not fully configured. '
+            . 'Please configure the API settings in <a href="/admin/settings">Site Settings</a>.</div>';
 
         $fields->addFieldToTab(
             'Root.Main',
@@ -95,7 +93,7 @@ class FreshService extends Page
     /**
      * Get the FreshService API configuration from SiteConfig
      */
-    public function getFreshServiceConfig()
+    public function getFreshServiceConfig(): SiteConfig
     {
         return SiteConfig::current_site_config();
     }
@@ -103,25 +101,27 @@ class FreshService extends Page
     /**
      * Get the configured FreshService API URL
      */
-    public function getFreshServiceApiUrl()
+    public function getFreshServiceApiUrl(): string
     {
         $config = $this->getFreshServiceConfig();
+
         return $config->getFreshServiceApiUrl();
     }
 
     /**
      * Check if FreshService API is configured
      */
-    public function isFreshServiceConfigured()
+    public function isFreshServiceConfigured(): bool
     {
         $config = $this->getFreshServiceConfig();
+
         return $config->isFreshServiceConfigured();
     }
 
     /**
      * Can this page be created in the CMS?
      */
-    public function canCreate($member = null, $context = [])
+    public function canCreate(mixed $member = null, mixed $context = []): bool
     {
         return parent::canCreate($member, $context);
     }
@@ -129,7 +129,7 @@ class FreshService extends Page
     /**
      * Can this page be viewed?
      */
-    public function canView($member = null)
+    public function canView(mixed $member = null): bool
     {
         return parent::canView($member);
     }
@@ -137,7 +137,7 @@ class FreshService extends Page
     /**
      * Can this page be edited?
      */
-    public function canEdit($member = null)
+    public function canEdit(mixed $member = null): bool
     {
         return parent::canEdit($member);
     }
@@ -145,8 +145,9 @@ class FreshService extends Page
     /**
      * Can this page be deleted?
      */
-    public function canDelete($member = null)
+    public function canDelete(mixed $member = null): bool
     {
         return parent::canDelete($member);
     }
+
 }

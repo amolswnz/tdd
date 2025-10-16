@@ -2,14 +2,16 @@
 
 namespace App\Controllers;
 
+use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
+use SilverStripe\Security\Member;
 use SilverStripe\SiteConfig\SiteConfig;
-use SilverStripe\Core\Convert;
 use SilverStripe\View\Requirements;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
+use Throwable;
 
 /**
  * FreshServiceController
@@ -18,10 +20,11 @@ use GuzzleHttp\Exception\RequestException;
  */
 class FreshServiceController extends Controller
 {
+
     /**
      * Allowed actions for this controller
      */
-    private static $allowed_actions = [
+    private static array $allowed_actions = [
         'tickets',
         'ticket',
         'test',
@@ -32,7 +35,7 @@ class FreshServiceController extends Controller
     /**
      * URL handlers for custom routes
      */
-    private static $url_handlers = [
+    private static array $url_handlers = [
         'tickets/$ID' => 'ticket',
         'tickets' => 'tickets',
         'test' => 'test',
@@ -43,15 +46,17 @@ class FreshServiceController extends Controller
     /**
      * Default index action - shows API documentation or redirects to dashboard
      */
-    public function index(HTTPRequest $request)
+    public function index(HTTPRequest $request): HTTPResponse
     {
         return $this->redirect($this->Link('dashboard'));
     }
 
     /**
      * Dashboard view showing FreshService integration status
+     *
+     * @return DBHTMLText
      */
-    public function dashboard(HTTPRequest $request)
+    public function dashboard(HTTPRequest $request): DBHTMLText
     {
         // No longer requiring Bootstrap since we're using Tailwind
         Requirements::css('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
@@ -86,8 +91,7 @@ class FreshServiceController extends Controller
             return $this->getResponse()
                 ->addHeader('Content-Type', 'application/json')
                 ->setBody(json_encode($tickets));
-
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             return $this->httpError(500, 'Failed to fetch tickets: ' . $e->getMessage());
         }
     }
@@ -108,6 +112,7 @@ class FreshServiceController extends Controller
         }
 
         $ticketId = $request->param('ID');
+
         if (!$ticketId || !is_numeric($ticketId)) {
             return $this->httpError(400, 'Invalid ticket ID');
         }
@@ -118,8 +123,7 @@ class FreshServiceController extends Controller
             return $this->getResponse()
                 ->addHeader('Content-Type', 'application/json')
                 ->setBody(json_encode($ticket));
-
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             return $this->httpError(500, 'Failed to fetch ticket: ' . $e->getMessage());
         }
     }
@@ -137,7 +141,7 @@ class FreshServiceController extends Controller
                 ->setStatusCode(500)
                 ->setBody(json_encode([
                     'status' => 'error',
-                    'message' => 'FreshService API is not configured'
+                    'message' => 'FreshService API is not configured',
                 ]));
         }
 
@@ -150,16 +154,15 @@ class FreshServiceController extends Controller
                     'status' => 'success',
                     'message' => 'API connection successful',
                     'endpoint' => $siteConfig->getFreshServiceApiUrl(),
-                    'result' => $testResult
+                    'result' => $testResult,
                 ]));
-
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             return $this->getResponse()
                 ->addHeader('Content-Type', 'application/json')
                 ->setStatusCode(500)
                 ->setBody(json_encode([
                     'status' => 'error',
-                    'message' => 'API connection failed: ' . $e->getMessage()
+                    'message' => 'API connection failed: ' . $e->getMessage(),
                 ]));
         }
     }
@@ -172,7 +175,7 @@ class FreshServiceController extends Controller
         $siteConfig = SiteConfig::current_site_config();
         $url = $siteConfig->getFreshServiceApiUrl() . '/tickets';
 
-        if (!empty($params)) {
+        if (count($params) > 0) {
             $url .= '?' . http_build_query($params);
         }
 
@@ -185,12 +188,10 @@ class FreshServiceController extends Controller
     private function fetchTicketFromAPI(int $ticketId): array
     {
         $siteConfig = SiteConfig::current_site_config();
-        $url = $siteConfig->getFreshServiceApiUrl() . "/tickets/{$ticketId}";
+        $url = $siteConfig->getFreshServiceApiUrl() . '/tickets/' . $ticketId;
 
         return $this->makeAPIRequest('GET', $url);
     }
-
-
 
     /**
      * Test API connection
@@ -206,7 +207,7 @@ class FreshServiceController extends Controller
     /**
      * Make an authenticated API request to FreshService using Guzzle
      */
-    private function makeAPIRequest(string $method, string $url, array $data = null): array
+    private function makeAPIRequest(string $method, string $url, ?array $data = null): array
     {
         $siteConfig = SiteConfig::current_site_config();
 
@@ -232,22 +233,22 @@ class FreshServiceController extends Controller
             $decodedResponse = json_decode($body, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new \Exception("Invalid JSON response: " . json_last_error_msg());
+                throw new Exception('Invalid JSON response: ' . json_last_error_msg());
             }
 
             return $decodedResponse;
-
         } catch (RequestException $e) {
             if ($e->hasResponse()) {
                 $response = $e->getResponse();
                 $statusCode = $response->getStatusCode();
                 $body = $response->getBody()->getContents();
-                throw new \Exception("HTTP Error {$statusCode}: {$body}");
-            } else {
-                throw new \Exception("Request Error: " . $e->getMessage());
+
+                throw new Exception('HTTP Error ' . $statusCode . ': ' . $body);
             }
-        } catch (\Exception $e) {
-            throw new \Exception("API Request Error: " . $e->getMessage());
+
+            throw new Exception('Request Error: ' . $e->getMessage());
+        } catch (Throwable $e) {
+            throw new Exception('API Request Error: ' . $e->getMessage());
         }
     }
 
@@ -262,7 +263,7 @@ class FreshServiceController extends Controller
             'IsConfigured' => $siteConfig->isFreshServiceConfigured(),
             'Domain' => $siteConfig->FreshServiceDomain,
             'ApiUrl' => $siteConfig->getFreshServiceApiUrl(),
-            'HasApiKey' => !empty($siteConfig->FreshServiceAPIKey),
+            'HasApiKey' => $siteConfig->FreshServiceAPIKey !== null && $siteConfig->FreshServiceAPIKey !== '',
             'CanAccess' => $this->canAccessAPI(),
         ];
     }
@@ -275,16 +276,18 @@ class FreshServiceController extends Controller
         // Add your permission logic here
         // For example, check if user is logged in or has specific permissions
         $member = $this->getCurrentUser();
+
         return $member && $member->exists();
     }
 
     /**
      * Get current logged in member
      */
-    public function getCurrentUser()
+    public function getCurrentUser(): ?Member
     {
         return $this->getRequest()->getSession()->get('loggedInAs')
-            ? \SilverStripe\Security\Member::get()->byID($this->getRequest()->getSession()->get('loggedInAs'))
+            ? Member::get()->byID($this->getRequest()->getSession()->get('loggedInAs'))
             : null;
     }
+
 }

@@ -6,10 +6,12 @@ namespace {
 
     class Page extends SiteTree
     {
-        private static $table_name = 'Page';
 
-        private static $db = [];
+        private static string $table_name = 'Page';
 
-        private static $has_one = [];
+        private static array $db = [];
+
+        private static array $has_one = [];
+
     }
 }

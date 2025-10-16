@@ -8,6 +8,7 @@ use GuzzleHttp\Exception\RequestException;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Security\Member;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\View\Requirements;
@@ -162,6 +163,7 @@ class FreshServiceController extends Controller
                 ->setStatusCode(500)
                 ->setBody(json_encode([
                     'status' => 'error',
+                    'endpoint' => $siteConfig->getFreshServiceApiUrl(),
                     'message' => 'API connection failed: ' . $e->getMessage(),
                 ]));
         }

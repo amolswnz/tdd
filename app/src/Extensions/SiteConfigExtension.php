@@ -63,7 +63,7 @@ class SiteConfigExtension extends Extension
         $domain = rtrim($domain, '/');
         $endpoint = ltrim($endpoint, '/');
 
-        return $domain . '/api/v2/' . $endpoint;
+        return $domain . '/' . $endpoint;
     }
 
     /**

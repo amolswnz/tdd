@@ -35,17 +35,34 @@
           <thead class="bg-gray-50">
             <tr v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
               <th v-for="header in headerGroup.headers" :key="header.id" class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200">
-                <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header" :props="header.getContext()" />
+                <div v-if="!header.isPlaceholder"
+                     :class="{ 'cursor-pointer select-none hover:text-gray-900': header.column.getCanSort() }"
+                     @click="header.column.getToggleSortingHandler()?.($event)"
+                     class="flex items-center space-x-1">
+                  <FlexRender :render="header.column.columnDef.header" :props="header.getContext()" />
+                  <span v-if="header.column.getCanSort()" class="flex flex-col">
+                    <svg v-if="header.column.getIsSorted() === 'asc'" class="w-3 h-3 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+                    </svg>
+                    <svg v-else-if="header.column.getIsSorted() === 'desc'" class="w-3 h-3 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                    <svg v-else class="w-3 h-3 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 12l5-5 5 5H5z" />
+                      <path d="M5 8l5 5 5-5H5z" opacity="0.3" />
+                    </svg>
+                  </span>
+                </div>
               </th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-200">
             <tr v-for="row in table.getRowModel().rows" :key="row.id" class="hover:bg-gray-50 transition-colors">
               <td v-for="cell in row.getVisibleCells()" :key="cell.id" class="px-4 py-3 text-sm text-gray-600 whitespace-nowrap">
-                <span v-if="cell.column.id === 'priority_name'" :class="getPriorityBadgeClass(cell.getValue())" class="px-2 py-1 rounded-full text-xs font-medium">
+                <span v-if="cell.column.id === 'priority'" :class="getPriorityBadgeClass(cell.getValue())" class="px-2 py-1 rounded-full text-xs font-medium">
                   <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
                 </span>
-                <span v-else-if="cell.column.id === 'status_name'" :class="getStatusBadgeClass(cell.getValue())" class="px-2 py-1 rounded-full text-xs font-medium">
+                <span v-else-if="cell.column.id === 'status'" :class="getStatusBadgeClass(cell.getValue())" class="px-2 py-1 rounded-full text-xs font-medium">
                   <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
                 </span>
                 <FlexRender v-else :render="cell.column.columnDef.cell" :props="cell.getContext()" />
@@ -163,7 +180,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { FlexRender, useVueTable, getCoreRowModel, createColumnHelper } from '@tanstack/vue-table'
+import { FlexRender, useVueTable, getCoreRowModel, getSortedRowModel, createColumnHelper, SortingState } from '@tanstack/vue-table'
 import { apiFetch } from './utils/api'
 
 const tickets = ref(null)
@@ -176,6 +193,12 @@ const totalPages = ref(1)
 const totalItems = ref(0)
 const pageLength = ref(20)
 const pagination = ref(null)
+
+// Sorting state
+const sorting = ref([])
+
+// Sorting function
+
 
 // Define columns for the table
 const columnHelper = createColumnHelper()
@@ -193,28 +216,34 @@ const columns = [
     header: 'Group ID',
     cell: ({ getValue }) => getValue(),
   }),
-  columnHelper.accessor('priority_name', {
+  columnHelper.accessor('priority', {
     header: 'Priority',
+    enableSorting: true,
     cell: ({ getValue }) => getValue(),
   }),
-  columnHelper.accessor('status_name', {
+  columnHelper.accessor('status', {
     header: 'Status',
+    enableSorting: true,
     cell: ({ getValue }) => getValue(),
   }),
   columnHelper.accessor('type', {
     header: 'Type',
+    enableSorting: true,
     cell: ({ getValue }) => getValue(),
   }),
   columnHelper.accessor('category', {
     header: 'Category',
+    enableSorting: true,
     cell: ({ getValue }) => getValue(),
   }),
   columnHelper.accessor('sub_category', {
     header: 'Sub Category',
+    enableSorting: true,
     cell: ({ getValue }) => getValue(),
   }),
   columnHelper.accessor('subject', {
     header: 'Subject',
+    enableSorting: true,
     cell: ({ getValue }) => {
       const subject = getValue()
       return subject && subject.length > 50
@@ -224,6 +253,7 @@ const columns = [
   }),
   columnHelper.accessor('created_at', {
     header: 'Created At',
+    enableSorting: true,
     cell: ({ getValue }) => {
       const date = getValue()
       return date ? new Date(date).toLocaleString() : ''
@@ -231,6 +261,7 @@ const columns = [
   }),
   columnHelper.accessor('updated_at', {
     header: 'Updated At',
+    enableSorting: true,
     cell: ({ getValue }) => {
       const date = getValue()
       return date ? new Date(date).toLocaleString() : ''
@@ -290,7 +321,19 @@ const table = useVueTable({
     return tickets.value || []
   },
   columns,
+  state: {
+    get sorting() {
+      return sorting.value
+    },
+  },
+  onSortingChange: updaterOrValue => {
+    sorting.value =
+      typeof updaterOrValue === 'function'
+        ? updaterOrValue(sorting.value)
+        : updaterOrValue
+  },
   getCoreRowModel: getCoreRowModel(),
+  getSortedRowModel: getSortedRowModel(),
 })
 
 // Load tickets with pagination

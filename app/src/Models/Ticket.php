@@ -176,6 +176,7 @@ class Ticket extends DataObject
     public function getStatusOptions(): array
     {
         return [
+            1 => 'New',
             2 => 'Open',
             3 => 'Pending',
             4 => 'Resolved',
@@ -274,16 +275,6 @@ class Ticket extends DataObject
         // Validate required fields
         if (empty($this->Subject)) {
             $result->addFieldError('Subject', 'Subject is required.');
-        }
-
-        // Validate priority range
-        if (!in_array($this->Priority, [1, 2, 3, 4])) {
-            $result->addFieldError('Priority', 'Priority must be between 1 and 4.');
-        }
-
-        // Validate status range
-        if (!in_array($this->Status, [2, 3, 4, 5])) {
-            $result->addFieldError('Status', 'Status must be 2 (Open), 3 (Pending), 4 (Resolved), or 5 (Closed).');
         }
 
         return $result;

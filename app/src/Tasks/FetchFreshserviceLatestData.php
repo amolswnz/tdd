@@ -2,17 +2,18 @@
 
 namespace App\Tasks;
 
-use App\Models\Ticket;
 use Exception;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
-use SilverStripe\Dev\BuildTask;
-use SilverStripe\PolyExecution\PolyOutput;
-use SilverStripe\SiteConfig\SiteConfig;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Throwable;
+use App\Models\Ticket;
+use GuzzleHttp\Client;
+use App\Models\SupportGroup;
+use SilverStripe\Dev\BuildTask;
+use SilverStripe\SiteConfig\SiteConfig;
+use GuzzleHttp\Exception\RequestException;
+use SilverStripe\PolyExecution\PolyOutput;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Fetch FreshService Latest Data Task
@@ -50,67 +51,79 @@ class FetchFreshserviceLatestData extends BuildTask
 
         $output->writeln("Parameters: per-page={$perPage}, max-pages={$maxPages}, update-existing=" . ($updateExisting ? 'yes' : 'no'));
 
-        $totalFetched = 0;
-        $totalCreated = 0;
-        $totalUpdated = 0;
-        $totalErrors = 0;
-
-        try {
-            for ($page = 1; $page <= $maxPages; $page++) {
-                $output->writeln("Fetching page {$page}...");
-
-                $tickets = $this->fetchTicketsFromAPI($siteConfig, [
-                    'per_page' => $perPage,
-                    'page' => $page,
-                    'query' => 'priority:3',
-                ]);
-
-                if (empty($tickets['tickets'])) {
-                    $output->writeln('No more tickets found.');
-                    break;
-                }
-
-                $pageCount = count($tickets['tickets']);
-                $output->writeln("Processing {$pageCount} tickets from page {$page}...");
-
-                foreach ($tickets['tickets'] as $ticketData) {
-                    try {
-                        $result = $this->processTicket($ticketData, $updateExisting, $output);
-                        $totalFetched++;
-
-                        if ($result['created']) {
-                            $totalCreated++;
-                            $output->writeln("  ✓ Created ticket #{$ticketData['id']}: {$ticketData['subject']}");
-                        } elseif ($result['updated']) {
-                            $totalUpdated++;
-                            $output->writeln("  ✓ Updated ticket #{$ticketData['id']}: {$ticketData['subject']}");
-                        } else {
-                            $output->writeln("  - Skipped ticket #{$ticketData['id']} (exists, update-existing=false)");
-                        }
-                    } catch (Throwable $e) {
-                        $totalErrors++;
-                        $output->writeln("  ✗ Error processing ticket #{$ticketData['id']}: " . $e->getMessage());
-                    }
-                }
-
-                // If we got fewer tickets than requested, we've reached the end
-                if ($pageCount < $perPage) {
-                    $output->writeln('Reached end of tickets.');
-                    break;
-                }
-            }
-        } catch (Throwable $e) {
-            $output->writeln('<error>Failed to fetch tickets: ' . $e->getMessage() . '</error>');
+        // Get allowed support group for imports
+        $allowedGroups = SupportGroup::get()->filter('AllowedImports', true);
+        if (!$allowedGroups) {
+            $output->writeln('<error>No Support Group is marked for Allowed Imports. Please set one in the CMS.</error>');
             return Command::FAILURE;
         }
 
-        $output->writeln('');
-        $output->writeln('=== Summary ===');
-        $output->writeln("Total fetched: {$totalFetched}");
-        $output->writeln("Created: {$totalCreated}");
-        $output->writeln("Updated: {$totalUpdated}");
-        $output->writeln("Errors: {$totalErrors}");
-        $output->writeln('Task completed successfully!');
+        foreach ($allowedGroups as $allowedGroup) {
+            $totalFetched = 0;
+            $totalCreated = 0;
+            $totalUpdated = 0;
+            $totalErrors = 0;
+
+            try {
+                for ($page = 1; $page <= $maxPages; $page++) {
+                    $output->writeln("Fetching page {$page}...");
+
+                    $tickets = $this->fetchTicketsFromAPI($siteConfig, [
+                        'per_page' => $perPage,
+                        'page' => $page,
+                        // 'query' => 'priority:3',
+                        'query' => 'group_id:' . $allowedGroup->GroupID
+                    ]);
+
+                    if (empty($tickets['tickets'])) {
+                        $output->writeln('No more tickets found.');
+                        break;
+                    }
+
+                    $pageCount = count($tickets['tickets']);
+                    $output->writeln("Processing {$pageCount} tickets from page {$page}...");
+
+                    foreach ($tickets['tickets'] as $ticketData) {
+                        try {
+                            $result = $this->processTicket($ticketData, $updateExisting, $output);
+                            $totalFetched++;
+
+                            if ($result['created']) {
+                                $totalCreated++;
+                                $output->writeln("  ✓ Created ticket #{$ticketData['id']}");
+                            } elseif ($result['updated']) {
+                                $totalUpdated++;
+                                $output->writeln("  ✓ Updated ticket #{$ticketData['id']}");
+                            } else {
+                                $output->writeln("  - Skipped ticket #{$ticketData['id']} (exists, update-existing=false)");
+                            }
+                        } catch (Throwable $e) {
+                            $totalErrors++;
+                            $output->writeln("  ✗ Error processing ticket #{$ticketData['id']}: " . $e->getMessage());
+                        }
+                    }
+
+                    // If we got fewer tickets than requested, we've reached the end
+                    if ($pageCount < $perPage) {
+                        $output->writeln('Reached end of tickets.');
+                        break;
+                    }
+                }
+            } catch (Throwable $e) {
+                $output->writeln('<error>Failed to fetch tickets: ' . $e->getMessage() . '</error>');
+                return Command::FAILURE;
+            }
+
+            $output->writeln('');
+            $output->writeln('=== Summary ===');
+            $output->writeln("Fetching tickets for Support Group: {$allowedGroup->Name} (ID: {$allowedGroup->GroupID})");
+            $output->writeln("Total fetched: {$totalFetched}");
+            $output->writeln("Created: {$totalCreated}");
+            $output->writeln("Updated: {$totalUpdated}");
+            $output->writeln("Errors: {$totalErrors}");
+            $output->writeln('Task completed successfully!');
+        }
+
 
         return Command::SUCCESS;
     }

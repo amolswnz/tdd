@@ -1,62 +1,11 @@
 <template>
   <div class="p-6">
     <!-- Filter dropdowns -->
-    <div class="flex flex-wrap gap-4 mb-6">
-      <div>
-        <label class="block text-xs text-gray-600 mb-1">Agent</label>
-        <select v-model="selectedFilters.assigned_agent_id" @change="applyFilters" class="border border-gray-300 rounded-md px-2 py-1 text-sm">
-          <option value="">All</option>
-          <option v-for="agent in filters.assigned_agents" :key="agent.value" :value="agent.value">
-            {{ agent.label }} ({{ agent.count }})
-          </option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-xs text-gray-600 mb-1">Priority</label>
-        <select v-model="selectedFilters.priority" @change="applyFilters" class="border border-gray-300 rounded-md px-2 py-1 text-sm">
-          <option value="">All</option>
-          <option v-for="priority in filters.priorities" :key="priority.value" :value="priority.value">
-            {{ priority.label }} ({{ priority.count }})
-          </option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-xs text-gray-600 mb-1">Status</label>
-        <select v-model="selectedFilters.status" @change="applyFilters" class="border border-gray-300 rounded-md px-2 py-1 text-sm">
-          <option value="">All</option>
-          <option v-for="status in filters.statuses" :key="status.value" :value="status.value">
-            {{ status.label }} ({{ status.count }})
-          </option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-xs text-gray-600 mb-1">Type</label>
-        <select v-model="selectedFilters.type" @change="applyFilters" class="border border-gray-300 rounded-md px-2 py-1 text-sm">
-          <option value="">All</option>
-          <option v-for="type in filters.types" :key="type.value" :value="type.value">
-            {{ type.label }} ({{ type.count }})
-          </option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-xs text-gray-600 mb-1">Category</label>
-        <select v-model="selectedFilters.category" @change="applyFilters" class="border border-gray-300 rounded-md px-2 py-1 text-sm">
-          <option value="">All</option>
-          <option v-for="cat in filters.categories" :key="cat.value" :value="cat.value">
-            {{ cat.label }} ({{ cat.count }})
-          </option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-xs text-gray-600 mb-1">Sub Category</label>
-        <select v-model="selectedFilters.sub_category" @change="applyFilters" class="border border-gray-300 rounded-md px-2 py-1 text-sm">
-          <option value="">All</option>
-          <option v-for="sub in filters.sub_categories" :key="sub.value" :value="sub.value">
-            {{ sub.label }} ({{ sub.count }})
-          </option>
-        </select>
-      </div>
-    </div>
+    <FilterControls
+      :selected-filters="selectedFilters"
+      @filter-changed="handleFilterChange"
+    />
+
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-2xl font-bold text-emerald-600">Freshservice Tickets</h2>
 
@@ -130,103 +79,18 @@
       </div>
 
       <!-- Pagination Controls -->
-      <div v-if="pagination && totalPages > 1" class="mt-12 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-        <div class="flex flex-1 justify-between sm:hidden">
-          <!-- Mobile pagination -->
-          <button
-            @click="prevPage"
-            :disabled="currentPage <= 1"
-            class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Previous
-          </button>
-          <button
-            @click="nextPage"
-            :disabled="currentPage >= totalPages"
-            class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Next
-          </button>
-        </div>
-
-        <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-          <div>
-            <p class="text-sm text-gray-700">
-              Showing
-              <span class="font-medium">{{ ((currentPage - 1) * pageLength) + 1 }}</span>
-              to
-              <span class="font-medium">{{ Math.min(currentPage * pageLength, totalItems) }}</span>
-              of
-              <span class="font-medium">{{ totalItems }}</span>
-              results
-            </p>
-          </div>
-
-          <div>
-            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-              <!-- First page button -->
-              <button
-                @click="firstPage"
-                :disabled="currentPage <= 1"
-                class="cursor-pointer relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed"
-              >First
-              </button>
-
-              <!-- Previous page button -->
-              <button
-                @click="prevPage"
-                :disabled="currentPage <= 1"
-                class="relative inline-flex items-center px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <span class="sr-only">Previous</span>
-                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
-                </svg>
-              </button>
-
-              <!-- Page numbers -->
-              <template v-for="page in getVisiblePages()" :key="page">
-                <button
-                  v-if="page !== '...'"
-                  @click="goToPage(page)"
-                  :class="[
-                    'cursor-pointer relative inline-flex items-center px-4 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 hover:bg-blue-50 focus:z-20 focus:outline-offset-0',
-                    page === currentPage
-                      ? 'z-10 bg-emerald-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 hover:bg-emerald-700'
-                      : 'text-gray-900'
-                  ]"
-                >
-                  {{ page }}
-                </button>
-                <span v-else class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
-                  ...
-                </span>
-              </template>
-
-              <!-- Next page button -->
-              <button
-                @click="nextPage"
-                :disabled="currentPage >= totalPages"
-                class="relative inline-flex items-center px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <span class="sr-only">Next</span>
-                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                </svg>
-              </button>
-
-              <!-- Last page button -->
-              <button
-                @click="lastPage"
-                :disabled="currentPage >= totalPages"
-                class="cursor-pointer relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Last
-              </button>
-            </nav>
-          </div>
-        </div>
-      </div>
+      <PaginationControls
+        :pagination="pagination"
+        :current-page="currentPage"
+        :total-pages="totalPages"
+        :total-items="totalItems"
+        :page-length="pageLength"
+        @prev-page="prevPage"
+        @next-page="nextPage"
+        @first-page="firstPage"
+        @last-page="lastPage"
+        @go-to-page="goToPage"
+      />
     </div>
 
     <div v-else class="text-center py-8 text-gray-500">
@@ -239,20 +103,14 @@
 import { ref, onMounted } from 'vue'
 import { FlexRender, useVueTable, getCoreRowModel, getSortedRowModel, createColumnHelper, SortingState } from '@tanstack/vue-table'
 import { apiFetch } from './utils/api'
+import PaginationControls from './components/PaginationControls.vue'
+import FilterControls from './components/FilterControls.vue'
 
 const tickets = ref(null)
 const loading = ref(false)
 const error = ref(null)
 
 // Filter state
-const filters = ref({
-  assigned_agents: [],
-  priorities: [],
-  statuses: [],
-  types: [],
-  categories: [],
-  sub_categories: []
-})
 const selectedFilters = ref({
   assigned_agent_id: '',
   priority: '',
@@ -466,22 +324,16 @@ const loadTickets = async (page = 1) => {
   }
 }
 
-// Fetch filter options from API
-const fetchFilters = async () => {
-  try {
-    const response = await apiFetch('/api/tickets/filters')
-    if (response.status === 'success' && response.data) {
-      filters.value = response.data
-    }
-  } catch (err) {
-    console.log('Error fetching filters:', err)
-  }
-}
-
 // When a filter changes, reload tickets
 const applyFilters = () => {
   currentPage.value = 1
   loadTickets(1)
+}
+
+// Handle filter changes from FilterControls component
+const handleFilterChange = (filterKey, value) => {
+  selectedFilters.value[filterKey] = value
+  applyFilters()
 }
 
 // Pagination functions
@@ -511,57 +363,14 @@ const lastPage = () => {
   goToPage(totalPages.value)
 }
 
-// Generate visible page numbers for pagination
-const getVisiblePages = () => {
-  const pages = []
-  const total = totalPages.value
-  const current = currentPage.value
-
-  if (total <= 7) {
-    // Show all pages if total is 7 or less
-    for (let i = 1; i <= total; i++) {
-      pages.push(i)
-    }
-  } else {
-    // Complex pagination logic
-    if (current <= 4) {
-      // Near the beginning
-      for (let i = 1; i <= 5; i++) {
-        pages.push(i)
-      }
-      pages.push('...')
-      pages.push(total)
-    } else if (current >= total - 3) {
-      // Near the end
-      pages.push(1)
-      pages.push('...')
-      for (let i = total - 4; i <= total; i++) {
-        pages.push(i)
-      }
-    } else {
-      // In the middle
-      pages.push(1)
-      pages.push('...')
-      for (let i = current - 1; i <= current + 1; i++) {
-        pages.push(i)
-      }
-      pages.push('...')
-      pages.push(total)
-    }
-  }
-
-  return pages
-}
-
 // Change page size and reload data
 const changePageSize = () => {
   currentPage.value = 1 // Reset to first page when changing page size
   loadTickets(1)
 }
 
-// Load tickets and filters on component mount
+// Load tickets on component mount
 onMounted(async () => {
-  await fetchFilters()
   await loadTickets(1)
 })
 </script>

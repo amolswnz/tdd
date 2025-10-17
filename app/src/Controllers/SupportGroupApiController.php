@@ -117,8 +117,8 @@ class SupportGroupApiController extends Controller
                     'total_pages' => $paginatedGroups->TotalPages(),
                     'page_length' => $paginatedGroups->getPageLength(),
                     'total_items' => $paginatedGroups->getTotalItems(),
-                    'has_next' => $paginatedGroups->hasNext(),
-                    'has_prev' => $paginatedGroups->hasPrev()
+                    'has_next' => $paginatedGroups->CurrentPage() < $paginatedGroups->TotalPages(),
+                    'has_prev' => $paginatedGroups->CurrentPage() > 1
                 ]
             ];
 
@@ -209,8 +209,8 @@ class SupportGroupApiController extends Controller
                     'total_pages' => $paginatedGroups->TotalPages(),
                     'page_length' => $paginatedGroups->getPageLength(),
                     'total_items' => $paginatedGroups->getTotalItems(),
-                    'has_next' => $paginatedGroups->hasNext(),
-                    'has_prev' => $paginatedGroups->hasPrev()
+                    'has_next' => $paginatedGroups->CurrentPage() < $paginatedGroups->TotalPages(),
+                    'has_prev' => $paginatedGroups->CurrentPage() > 1
                 ]
             ];
 

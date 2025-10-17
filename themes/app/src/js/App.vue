@@ -22,7 +22,10 @@
         <tbody class="divide-y divide-gray-200">
           <tr v-for="row in table.getRowModel().rows" :key="row.id" class="hover:bg-gray-50 transition-colors">
             <td v-for="cell in row.getVisibleCells()" :key="cell.id" class="px-4 py-3 text-sm text-gray-600 whitespace-nowrap">
-              <span v-if="cell.column.id === 'priority'" :class="getPriorityBadgeClass(cell.getValue())" class="px-2 py-1 rounded-full text-xs font-medium">
+              <span v-if="cell.column.id === 'priority_name'" :class="getPriorityBadgeClass(cell.getValue())" class="px-2 py-1 rounded-full text-xs font-medium">
+                <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+              </span>
+              <span v-else-if="cell.column.id === 'status_name'" :class="getStatusBadgeClass(cell.getValue())" class="px-2 py-1 rounded-full text-xs font-medium">
                 <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
               </span>
               <FlexRender v-else :render="cell.column.columnDef.cell" :props="cell.getContext()" />
@@ -51,8 +54,8 @@ const error = ref(null)
 const columnHelper = createColumnHelper()
 
 const columns = [
-  columnHelper.accessor('id', {
-    header: 'ID',
+  columnHelper.accessor('freshservice_id', {
+    header: 'FreshService ID',
     cell: ({ getValue }) => getValue(),
   }),
   columnHelper.accessor('department_id', {
@@ -63,24 +66,13 @@ const columns = [
     header: 'Group ID',
     cell: ({ getValue }) => getValue(),
   }),
-  columnHelper.accessor('priority', {
+  columnHelper.accessor('priority_name', {
     header: 'Priority',
-    cell: ({ getValue }) => {
-      const priority = parseInt(getValue())
-      switch (priority) {
-        case 1:
-          return 'Low'
-        case 2:
-          return 'Medium'
-        case 3:
-          return 'High'
-        case 4:
-          return 'Urgent'
-        default:
-          console.log("Unmatched priority value:", rawValue)
-          return rawValue || 'Unknown'
-      }
-    },
+    cell: ({ getValue }) => getValue(),
+  }),
+  columnHelper.accessor('status_name', {
+    header: 'Status',
+    cell: ({ getValue }) => getValue(),
   }),
   columnHelper.accessor('type', {
     header: 'Type',
@@ -123,20 +115,43 @@ const columns = [
 const getPriorityBadgeClass = (priority) => {
   console.log("Badge class for priority:", priority)
 
-  // Handle both converted text and raw values
+  // Handle the priority name from our API
   const priorityStr = String(priority).toLowerCase()
 
-  if (priorityStr === 'low' || priorityStr === '1') {
+  if (priorityStr === 'low') {
     return 'bg-green-100 text-green-800'
   }
-  if (priorityStr === 'medium' || priorityStr === '2') {
+  if (priorityStr === 'medium') {
     return 'bg-yellow-100 text-yellow-800'
   }
-  if (priorityStr === 'high' || priorityStr === '3') {
+  if (priorityStr === 'high') {
     return 'bg-orange-100 text-orange-800'
   }
-  if (priorityStr === 'urgent' || priorityStr === '4') {
+  if (priorityStr === 'urgent') {
     return 'bg-red-100 text-red-800'
+  }
+
+  return 'bg-gray-100 text-gray-800'
+}
+
+// Status badge styling function
+const getStatusBadgeClass = (status) => {
+  const statusStr = String(status).toLowerCase()
+
+  if (statusStr === 'new') {
+    return 'bg-blue-100 text-blue-800'
+  }
+  if (statusStr === 'open') {
+    return 'bg-green-100 text-green-800'
+  }
+  if (statusStr === 'pending') {
+    return 'bg-yellow-100 text-yellow-800'
+  }
+  if (statusStr === 'resolved') {
+    return 'bg-purple-100 text-purple-800'
+  }
+  if (statusStr === 'closed') {
+    return 'bg-gray-100 text-gray-800'
   }
 
   return 'bg-gray-100 text-gray-800'
@@ -155,7 +170,13 @@ const table = useVueTable({
 onMounted(async () => {
   loading.value = true
   try {
-    tickets.value = await apiFetch('/api/freshservice/tickets')
+    const response = await apiFetch('/api/tickets/list')
+    // Our API returns data in a nested structure with status and data properties
+    if (response.status === 'success' && response.data) {
+      tickets.value = response.data
+    } else {
+      throw new Error('Invalid response format')
+    }
   } catch (err) {
     console.log("Error loading tickets:", err)
     error.value = err

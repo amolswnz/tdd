@@ -26,7 +26,6 @@ class FetchTicketsApiController extends Controller
      */
     private static array $allowed_actions = [
         'index',
-        'ticket',
         'list',
         'search',
         'stats'
@@ -36,7 +35,6 @@ class FetchTicketsApiController extends Controller
      * URL handlers for custom routes
      */
     private static array $url_handlers = [
-        'ticket/$ID!' => 'ticket',
         'search' => 'search',
         'stats' => 'stats',
         'list' => 'list',
@@ -51,7 +49,6 @@ class FetchTicketsApiController extends Controller
         $endpoints = [
             'GET /api/tickets/' => 'List all available API endpoints',
             'GET /api/tickets/list' => 'Get paginated list of tickets',
-            'GET /api/tickets/ticket/{id}' => 'Get specific ticket by ID',
             'GET /api/tickets/search?q={query}' => 'Search tickets by various criteria',
             'GET /api/tickets/stats' => 'Get ticket statistics'
         ];
@@ -156,8 +153,8 @@ class FetchTicketsApiController extends Controller
                     'total_pages' => $paginatedTickets->TotalPages(),
                     'page_length' => $paginatedTickets->getPageLength(),
                     'total_items' => $paginatedTickets->getTotalItems(),
-                    'has_next' => $paginatedTickets->hasNext(),
-                    'has_prev' => $paginatedTickets->hasPrev()
+                    'has_next' => $paginatedTickets->CurrentPage() < $paginatedTickets->TotalPages(),
+                    'has_prev' => $paginatedTickets->CurrentPage() > 1
                 ]
             ];
 
@@ -171,32 +168,6 @@ class FetchTicketsApiController extends Controller
     /**
      * Get a specific ticket by ID
      */
-    public function ticket(HTTPRequest $request): HTTPResponse
-    {
-        try {
-            $ticketId = (int) $request->param('ID');
-
-            if (!$ticketId) {
-                return $this->errorResponse('Invalid ticket ID provided', 400);
-            }
-
-            $ticket = Ticket::get()->byID($ticketId);
-
-            if (!$ticket) {
-                return $this->errorResponse('Ticket not found', 404);
-            }
-
-            $response = [
-                'status' => 'success',
-                'data' => $this->formatTicketData($ticket, true) // Include detailed info
-            ];
-
-            return $this->jsonResponse($response);
-
-        } catch (\Exception $e) {
-            return $this->errorResponse('Failed to fetch ticket: ' . $e->getMessage(), 500);
-        }
-    }
 
     /**
      * Search tickets by various criteria
@@ -256,8 +227,8 @@ class FetchTicketsApiController extends Controller
                     'total_pages' => $paginatedTickets->TotalPages(),
                     'page_length' => $paginatedTickets->getPageLength(),
                     'total_items' => $paginatedTickets->getTotalItems(),
-                    'has_next' => $paginatedTickets->hasNext(),
-                    'has_prev' => $paginatedTickets->hasPrev()
+                    'has_next' => $paginatedTickets->CurrentPage() < $paginatedTickets->TotalPages(),
+                    'has_prev' => $paginatedTickets->CurrentPage() > 1
                 ]
             ];
 
@@ -324,11 +295,14 @@ class FetchTicketsApiController extends Controller
     /**
      * Format ticket data for API response
      */
-    private function formatTicketData(Ticket $ticket, bool $detailed = false): array
+    private function formatTicketData(Ticket $ticket): array
     {
-        $data = [
+        return [
             'id' => $ticket->ID,
             'freshservice_id' => $ticket->FreshServiceID,
+            'department_id' => $ticket->DepartmentID,
+            'group_id' => $ticket->GroupID,
+            'assigned_agent_id' => $ticket->AssignedAgentID,
             'subject' => $ticket->Subject,
             'priority' => $ticket->Priority,
             'priority_name' => $ticket->getPriorityName(),
@@ -339,27 +313,17 @@ class FetchTicketsApiController extends Controller
             'sub_category' => $ticket->SubCategory,
             'created_at' => $ticket->CreatedAt,
             'updated_at' => $ticket->UpdatedAt,
+            'resolved_at' => $ticket->ResolvedAt,
+            'closed_at' => $ticket->ClosedAt,
+            'last_synced_at' => $ticket->LastSyncedAt,
             'created' => $ticket->Created,
-            'updated' => $ticket->LastEdited
+            'updated' => $ticket->LastEdited,
+            'priority_css_class' => $ticket->getPriorityCSSClass(),
+            'status_css_class' => $ticket->getStatusCSSClass(),
+            'is_open' => $ticket->isOpen(),
+            'is_resolved' => $ticket->isResolved(),
+            'is_closed' => $ticket->isClosed()
         ];
-
-        if ($detailed) {
-            $data = array_merge($data, [
-                'department_id' => $ticket->DepartmentID,
-                'group_id' => $ticket->GroupID,
-                'assigned_agent_id' => $ticket->AssignedAgentID,
-                'resolved_at' => $ticket->ResolvedAt,
-                'closed_at' => $ticket->ClosedAt,
-                'last_synced_at' => $ticket->LastSyncedAt,
-                'priority_css_class' => $ticket->getPriorityCSSClass(),
-                'status_css_class' => $ticket->getStatusCSSClass(),
-                'is_open' => $ticket->isOpen(),
-                'is_resolved' => $ticket->isResolved(),
-                'is_closed' => $ticket->isClosed()
-            ]);
-        }
-
-        return $data;
     }
 
     /**

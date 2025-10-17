@@ -14,11 +14,12 @@
         <% end_if %>
 
         <%-- Add custom FreshService specific content here --%>
-        <div class="freshservice-features">
-            <h3>FreshService Integration</h3>
-            <p>Connected to: $getFreshServiceConfig.FreshServiceDomain</p>
-            <p>API Endpoint: $getFreshServiceApiUrl</p>
-            <%-- This section can be customized for FreshService specific functionality --%>
-        </div>
+        <pre>
+            FreshService Integration -> API Endpoint: $getFreshServiceApiUrl
+        </pre>
     </div>
+
+    <div id="vue-app"></div>
 </div>
+
+<script src="$themedResourceURL('dist/vue-app.js')"></script>

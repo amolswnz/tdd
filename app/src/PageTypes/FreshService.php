@@ -12,7 +12,7 @@ use SilverStripe\SiteConfig\SiteConfig;
  *
  * Custom page type for FreshService functionality
  */
-class FreshService extends Page
+class FreshServicePage extends Page
 {
 
     /**

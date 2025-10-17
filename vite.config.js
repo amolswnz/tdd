@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
-// import react from '@vitejs/plugin-react'; // Uncomment for React
-// import vue from '@vitejs/plugin-vue';    // Uncomment for Vue
+import vue from '@vitejs/plugin-vue';    // Uncomment for Vue
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
@@ -11,7 +10,10 @@ export default defineConfig({
     manifest: true, // Generate manifest.json for SilverStripe
     assetsDir: '',      // Set to empty string to remove assets folder
     rollupOptions: {
-      input: 'themes/app/src/js/main.js', // Entry point
+      input: {
+        main: 'themes/app/src/js/main.js',
+        'vue-app': 'themes/app/src/js/vue-app.js',
+      },
       output: {
         entryFileNames: '[name].js', // Output JS files directly
         chunkFileNames: '[name].js', // Output chunks directly
@@ -20,6 +22,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    vue(),
     tailwindcss(),
   ],
   server: {

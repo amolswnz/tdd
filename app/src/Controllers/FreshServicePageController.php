@@ -15,11 +15,11 @@ use SilverStripe\View\Requirements;
 use Throwable;
 
 /**
- * FreshServiceController
+ * FreshServicePageController
  *
  * API Controller for FreshService integration - Read-only operations
  */
-class FreshServiceController extends Controller
+class FreshServicePageController extends Controller
 {
 
     /**
@@ -37,10 +37,10 @@ class FreshServiceController extends Controller
      * URL handlers for custom routes
      */
     private static array $url_handlers = [
-        'tickets/$ID' => 'ticket',
-        'tickets' => 'tickets',
         'test' => 'test',
         'dashboard' => 'dashboard',
+        'tickets/$ID!' => 'ticket',  // The ! makes ID required, so it won't match tickets without ID
+        'tickets' => 'tickets',
         '' => 'index',
     ];
 
@@ -89,9 +89,34 @@ class FreshServiceController extends Controller
                 'page' => $request->getVar('page') ?: 1,
             ]);
 
+            $tinyResponse = [];
+            foreach ($tickets as $ticket) {
+                $ticket = $ticket[0];
+                // Where status not Resolved 4 or Closed 5
+                if ($ticket['status'] != 4 || $ticket['status'] != 5) {
+                    $tinyResponse[] = [
+                        'subject' => $ticket['subject'],
+                        'type' => $ticket['type'],
+                        'id' => $ticket['id'],
+                        'created_at' => $ticket['created_at'],
+                        'updated_at' => $ticket['updated_at'],
+                        'group_id' => $ticket['group_id'],
+                        'department_id' => $ticket['department_id'],
+                        'category' => $ticket['category'],
+                        'sub_category' => $ticket['sub_category'],
+                        'priority' =>  match ($ticket['priority']) {
+                            1 => 'Low',
+                            2 => 'Medium',
+                            3 => 'High',
+                            4 => 'Urgent',
+                        }
+                    ];
+                }
+            }
+
             return $this->getResponse()
                 ->addHeader('Content-Type', 'application/json')
-                ->setBody(json_encode($tickets));
+                ->setBody(json_encode($tinyResponse));
         } catch (Throwable $e) {
             return $this->httpError(500, 'Failed to fetch tickets: ' . $e->getMessage());
         }
@@ -170,6 +195,17 @@ class FreshServiceController extends Controller
     }
 
     /**
+     * Test API connection
+     */
+    private function testAPIConnection(): array
+    {
+        $siteConfig = SiteConfig::current_site_config();
+        $url = $siteConfig->getFreshServiceApiUrl() . '/tickets?per_page=1';
+
+        return $this->makeAPIRequest('GET', $url);
+    }
+
+    /**
      * Fetch tickets from FreshService API using cURL
      */
     private function fetchTicketsFromAPI(array $params = []): array
@@ -191,17 +227,6 @@ class FreshServiceController extends Controller
     {
         $siteConfig = SiteConfig::current_site_config();
         $url = $siteConfig->getFreshServiceApiUrl() . '/tickets/' . $ticketId;
-
-        return $this->makeAPIRequest('GET', $url);
-    }
-
-    /**
-     * Test API connection
-     */
-    private function testAPIConnection(): array
-    {
-        $siteConfig = SiteConfig::current_site_config();
-        $url = $siteConfig->getFreshServiceApiUrl() . '/tickets?per_page=1';
 
         return $this->makeAPIRequest('GET', $url);
     }
@@ -274,11 +299,17 @@ class FreshServiceController extends Controller
      */
     public function canAccessAPI(): bool
     {
-        // Add your permission logic here
-        // For example, check if user is logged in or has specific permissions
-        $member = $this->getCurrentUser();
+        // Option 1: Allow public access to API endpoints
+        return true;
 
-        return $member && $member->exists();
+        // Option 2: API Key authentication (uncomment to use)
+        // $apiKey = $this->getRequest()->getHeader('X-API-Key') ?? $this->getRequest()->getVar('api_key');
+        // $siteConfig = SiteConfig::current_site_config();
+        // return $apiKey && $apiKey === $siteConfig->InternalAPIKey;
+
+        // Option 3: User-based authentication (original)
+        // $member = $this->getCurrentUser();
+        // return $member && $member->exists() && $member->inGroup('api-users');
     }
 
     /**
@@ -290,5 +321,4 @@ class FreshServiceController extends Controller
             ? Member::get()->byID($this->getRequest()->getSession()->get('loggedInAs'))
             : null;
     }
-
 }

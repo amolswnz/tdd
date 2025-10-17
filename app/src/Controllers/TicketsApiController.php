@@ -28,7 +28,8 @@ class TicketsApiController extends Controller
         'index',
         'list',
         'search',
-        'stats'
+        'stats',
+        'filters'
     ];
 
     /**
@@ -37,6 +38,7 @@ class TicketsApiController extends Controller
     private static array $url_handlers = [
         'search' => 'search',
         'stats' => 'stats',
+        'filters' => 'filters',
         'list' => 'list',
         '' => 'index',
     ];
@@ -50,7 +52,8 @@ class TicketsApiController extends Controller
             'GET /api/tickets/' => 'List all available API endpoints',
             'GET /api/tickets/list' => 'Get paginated list of tickets',
             'GET /api/tickets/search?q={query}' => 'Search tickets by various criteria',
-            'GET /api/tickets/stats' => 'Get ticket statistics'
+            'GET /api/tickets/stats' => 'Get ticket statistics',
+            'GET /api/tickets/filters' => 'Get unique filter values for dropdown lists'
         ];
 
         $availableParameters = [
@@ -72,6 +75,11 @@ class TicketsApiController extends Controller
                 'priority' => 'Filter by priority',
                 'status' => 'Filter by status',
                 'assigned_agent_id' => 'Filter by assigned agent ID'
+            ],
+            'filters endpoint' => [
+                'No parameters required',
+                'Returns unique values for: departments, groups, assigned_agents, priorities, statuses, types, categories, sub_categories',
+                'Each filter option includes: value, label, and count of tickets'
             ]
         ];
 
@@ -285,6 +293,132 @@ class TicketsApiController extends Controller
 
         } catch (\Exception $e) {
             return $this->errorResponse('Failed to generate statistics: ' . $e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * Get unique filter values for dropdown lists
+     */
+    public function filters(HTTPRequest $request): HTTPResponse
+    {
+        try {
+            $allTickets = Ticket::get();
+
+            // Get unique department IDs with count
+            $departmentIds = $allTickets->column('DepartmentID');
+            $uniqueDepartmentIds = array_unique(array_filter($departmentIds));
+            $departments = [];
+            foreach ($uniqueDepartmentIds as $deptId) {
+                $departments[] = [
+                    'value' => $deptId,
+                    'label' => "Department $deptId",
+                    'count' => $allTickets->filter('DepartmentID', $deptId)->count()
+                ];
+            }
+
+            // Get unique group IDs with count
+            $groupIds = $allTickets->column('GroupID');
+            $uniqueGroupIds = array_unique(array_filter($groupIds));
+            $groups = [];
+            foreach ($uniqueGroupIds as $groupId) {
+                $groups[] = [
+                    'value' => $groupId,
+                    'label' => "Group $groupId",
+                    'count' => $allTickets->filter('GroupID', $groupId)->count()
+                ];
+            }
+
+            // Get unique assigned agent IDs with count
+            $agentIds = $allTickets->column('AssignedAgentID');
+            $uniqueAgentIds = array_unique(array_filter($agentIds));
+            $agents = [];
+            foreach ($uniqueAgentIds as $agentId) {
+                $agents[] = [
+                    'value' => $agentId,
+                    'label' => "Agent $agentId",
+                    'count' => $allTickets->filter('AssignedAgentID', $agentId)->count()
+                ];
+            }
+
+            // Priority options (static with counts)
+            $priorities = [];
+            $priorityLabels = [1 => 'Low', 2 => 'Medium', 3 => 'High', 4 => 'Urgent'];
+            for ($i = 1; $i <= 4; $i++) {
+                $priorities[] = [
+                    'value' => $i,
+                    'label' => $priorityLabels[$i],
+                    'count' => $allTickets->filter('Priority', $i)->count()
+                ];
+            }
+
+            // Status options with counts
+            $statuses = $allTickets->column('Status');
+            $uniqueStatuses = array_unique(array_filter($statuses));
+            $statusOptions = [];
+            $statusLabels = [1 => 'New', 2 => 'Open', 3 => 'Pending', 4 => 'Resolved', 5 => 'Closed', 6 => 'New'];
+            foreach ($uniqueStatuses as $status) {
+                $statusOptions[] = [
+                    'value' => $status,
+                    'label' => $statusLabels[$status] ?? "Status $status",
+                    'count' => $allTickets->filter('Status', $status)->count()
+                ];
+            }
+
+            // Get unique types with count
+            $types = $allTickets->column('Type');
+            $uniqueTypes = array_unique(array_filter($types));
+            $typeOptions = [];
+            foreach ($uniqueTypes as $type) {
+                $typeOptions[] = [
+                    'value' => $type,
+                    'label' => $type,
+                    'count' => $allTickets->filter('Type', $type)->count()
+                ];
+            }
+
+            // Get unique categories with count
+            $categories = $allTickets->column('Category');
+            $uniqueCategories = array_unique(array_filter($categories));
+            $categoryOptions = [];
+            foreach ($uniqueCategories as $category) {
+                $categoryOptions[] = [
+                    'value' => $category,
+                    'label' => $category,
+                    'count' => $allTickets->filter('Category', $category)->count()
+                ];
+            }
+
+            // Get unique sub-categories with count
+            $subCategories = $allTickets->column('SubCategory');
+            $uniqueSubCategories = array_unique(array_filter($subCategories));
+            $subCategoryOptions = [];
+            foreach ($uniqueSubCategories as $subCategory) {
+                $subCategoryOptions[] = [
+                    'value' => $subCategory,
+                    'label' => $subCategory,
+                    'count' => $allTickets->filter('SubCategory', $subCategory)->count()
+                ];
+            }
+
+            $response = [
+                'status' => 'success',
+                'data' => [
+                    'departments' => $departments,
+                    'groups' => $groups,
+                    'assigned_agents' => $agents,
+                    'priorities' => $priorities,
+                    'statuses' => $statusOptions,
+                    'types' => $typeOptions,
+                    'categories' => $categoryOptions,
+                    'sub_categories' => $subCategoryOptions,
+                    'last_updated' => date('c')
+                ]
+            ];
+
+            return $this->jsonResponse($response);
+
+        } catch (\Exception $e) {
+            return $this->errorResponse('Failed to generate filter options: ' . $e->getMessage(), 500);
         }
     }
 

@@ -1,5 +1,62 @@
 <template>
   <div class="p-6">
+    <!-- Filter dropdowns -->
+    <div class="flex flex-wrap gap-4 mb-6">
+      <div>
+        <label class="block text-xs text-gray-600 mb-1">Agent</label>
+        <select v-model="selectedFilters.assigned_agent_id" @change="applyFilters" class="border border-gray-300 rounded-md px-2 py-1 text-sm">
+          <option value="">All</option>
+          <option v-for="agent in filters.assigned_agents" :key="agent.value" :value="agent.value">
+            {{ agent.label }} ({{ agent.count }})
+          </option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs text-gray-600 mb-1">Priority</label>
+        <select v-model="selectedFilters.priority" @change="applyFilters" class="border border-gray-300 rounded-md px-2 py-1 text-sm">
+          <option value="">All</option>
+          <option v-for="priority in filters.priorities" :key="priority.value" :value="priority.value">
+            {{ priority.label }} ({{ priority.count }})
+          </option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs text-gray-600 mb-1">Status</label>
+        <select v-model="selectedFilters.status" @change="applyFilters" class="border border-gray-300 rounded-md px-2 py-1 text-sm">
+          <option value="">All</option>
+          <option v-for="status in filters.statuses" :key="status.value" :value="status.value">
+            {{ status.label }} ({{ status.count }})
+          </option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs text-gray-600 mb-1">Type</label>
+        <select v-model="selectedFilters.type" @change="applyFilters" class="border border-gray-300 rounded-md px-2 py-1 text-sm">
+          <option value="">All</option>
+          <option v-for="type in filters.types" :key="type.value" :value="type.value">
+            {{ type.label }} ({{ type.count }})
+          </option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs text-gray-600 mb-1">Category</label>
+        <select v-model="selectedFilters.category" @change="applyFilters" class="border border-gray-300 rounded-md px-2 py-1 text-sm">
+          <option value="">All</option>
+          <option v-for="cat in filters.categories" :key="cat.value" :value="cat.value">
+            {{ cat.label }} ({{ cat.count }})
+          </option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs text-gray-600 mb-1">Sub Category</label>
+        <select v-model="selectedFilters.sub_category" @change="applyFilters" class="border border-gray-300 rounded-md px-2 py-1 text-sm">
+          <option value="">All</option>
+          <option v-for="sub in filters.sub_categories" :key="sub.value" :value="sub.value">
+            {{ sub.label }} ({{ sub.count }})
+          </option>
+        </select>
+      </div>
+    </div>
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-2xl font-bold text-emerald-600">Freshservice Tickets</h2>
 
@@ -59,10 +116,10 @@
           <tbody class="divide-y divide-gray-200">
             <tr v-for="row in table.getRowModel().rows" :key="row.id" class="hover:bg-gray-50 transition-colors">
               <td v-for="cell in row.getVisibleCells()" :key="cell.id" class="px-4 py-3 text-sm text-gray-600 whitespace-nowrap">
-                <span v-if="cell.column.id === 'priority'" :class="getPriorityBadgeClass(cell.getValue())" class="px-2 py-1 rounded-full text-xs font-medium">
+                <span v-if="cell.column.id === 'priority'" :class="getPriorityBadgeClass(row.original.priority)" class="px-2 py-1 rounded-full text-xs font-medium">
                   <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
                 </span>
-                <span v-else-if="cell.column.id === 'status'" :class="getStatusBadgeClass(cell.getValue())" class="px-2 py-1 rounded-full text-xs font-medium">
+                <span v-else-if="cell.column.id === 'status'" :class="getStatusBadgeClass(row.original.status)" class="px-2 py-1 rounded-full text-xs font-medium">
                   <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
                 </span>
                 <FlexRender v-else :render="cell.column.columnDef.cell" :props="cell.getContext()" />
@@ -187,6 +244,24 @@ const tickets = ref(null)
 const loading = ref(false)
 const error = ref(null)
 
+// Filter state
+const filters = ref({
+  assigned_agents: [],
+  priorities: [],
+  statuses: [],
+  types: [],
+  categories: [],
+  sub_categories: []
+})
+const selectedFilters = ref({
+  assigned_agent_id: '',
+  priority: '',
+  status: '',
+  type: '',
+  category: '',
+  sub_category: ''
+})
+
 // Pagination state
 const currentPage = ref(1)
 const totalPages = ref(1)
@@ -207,6 +282,7 @@ const columns = [
   columnHelper.accessor('freshservice_id', {
     header: 'FreshService ID',
     cell: ({ getValue }) => getValue(),
+    enableSorting: true,
   }),
   columnHelper.accessor('department_id', {
     header: 'Department ID',
@@ -219,12 +295,33 @@ const columns = [
   columnHelper.accessor('priority', {
     header: 'Priority',
     enableSorting: true,
-    cell: ({ getValue }) => getValue(),
+    cell: ({ getValue }) => {
+      const priority = getValue()
+      // Convert priority number to text
+      const priorityMap = {
+        1: 'Low',
+        2: 'Medium',
+        3: 'High',
+        4: 'Urgent'
+      }
+      return priorityMap[priority] || priority
+    },
   }),
   columnHelper.accessor('status', {
     header: 'Status',
     enableSorting: true,
-    cell: ({ getValue }) => getValue(),
+    cell: ({ getValue }) => {
+      const status = getValue()
+      // Convert status number to text
+      const statusMap = {
+        2: 'Open',
+        3: 'Pending',
+        4: 'Resolved',
+        5: 'Closed',
+        6: 'New'
+      }
+      return statusMap[status] || status
+    },
   }),
   columnHelper.accessor('type', {
     header: 'Type',
@@ -271,21 +368,20 @@ const columns = [
 
 // Priority badge styling function
 const getPriorityBadgeClass = (priority) => {
-  console.log("Badge class for priority:", priority)
-
-  // Handle the priority name from our API
+  // Handle both numeric values and text values
   const priorityStr = String(priority).toLowerCase()
 
-  if (priorityStr === 'low') {
+  // Handle numeric values
+  if (priority === 1 || priorityStr === 'low') {
     return 'bg-green-100 text-green-800'
   }
-  if (priorityStr === 'medium') {
+  if (priority === 2 || priorityStr === 'medium') {
     return 'bg-yellow-100 text-yellow-800'
   }
-  if (priorityStr === 'high') {
+  if (priority === 3 || priorityStr === 'high') {
     return 'bg-orange-100 text-orange-800'
   }
-  if (priorityStr === 'urgent') {
+  if (priority === 4 || priorityStr === 'urgent') {
     return 'bg-red-100 text-red-800'
   }
 
@@ -296,19 +392,20 @@ const getPriorityBadgeClass = (priority) => {
 const getStatusBadgeClass = (status) => {
   const statusStr = String(status).toLowerCase()
 
-  if (statusStr === 'new') {
+  // Handle both numeric values and text values
+  if (status === 6 || statusStr === 'new') {
     return 'bg-blue-100 text-blue-800'
   }
-  if (statusStr === 'open') {
+  if (status === 2 || statusStr === 'open') {
     return 'bg-green-100 text-green-800'
   }
-  if (statusStr === 'pending') {
+  if (status === 3 || statusStr === 'pending') {
     return 'bg-yellow-100 text-yellow-800'
   }
-  if (statusStr === 'resolved') {
+  if (status === 4 || statusStr === 'resolved') {
     return 'bg-purple-100 text-purple-800'
   }
-  if (statusStr === 'closed') {
+  if (status === 5 || statusStr === 'closed') {
     return 'bg-gray-100 text-gray-800'
   }
 
@@ -336,16 +433,22 @@ const table = useVueTable({
   getSortedRowModel: getSortedRowModel(),
 })
 
-// Load tickets with pagination
+// Load tickets with pagination and filters
 const loadTickets = async (page = 1) => {
   loading.value = true
   try {
-    const response = await apiFetch(`/api/tickets/list?page=${page}&limit=${pageLength.value}`)
-    // Our API returns data in a nested structure with status and data properties
+    // Build query params for filters
+    const params = new URLSearchParams()
+    params.append('page', page)
+    params.append('limit', pageLength.value)
+    Object.entries(selectedFilters.value).forEach(([key, val]) => {
+      if (val !== '' && val !== null && val !== undefined) {
+        params.append(key, val)
+      }
+    })
+    const response = await apiFetch(`/api/tickets/list?${params.toString()}`)
     if (response.status === 'success' && response.data) {
       tickets.value = response.data
-
-      // Update pagination info
       if (response.pagination) {
         currentPage.value = response.pagination.current_page
         totalPages.value = response.pagination.total_pages
@@ -361,6 +464,24 @@ const loadTickets = async (page = 1) => {
   } finally {
     loading.value = false
   }
+}
+
+// Fetch filter options from API
+const fetchFilters = async () => {
+  try {
+    const response = await apiFetch('/api/tickets/filters')
+    if (response.status === 'success' && response.data) {
+      filters.value = response.data
+    }
+  } catch (err) {
+    console.log('Error fetching filters:', err)
+  }
+}
+
+// When a filter changes, reload tickets
+const applyFilters = () => {
+  currentPage.value = 1
+  loadTickets(1)
 }
 
 // Pagination functions
@@ -438,8 +559,9 @@ const changePageSize = () => {
   loadTickets(1)
 }
 
-// Load tickets on component mount
+// Load tickets and filters on component mount
 onMounted(async () => {
+  await fetchFilters()
   await loadTickets(1)
 })
 </script>

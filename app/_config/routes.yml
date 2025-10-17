@@ -4,6 +4,18 @@ After: '#rootroutes'
 ---
 SilverStripe\Control\Director:
   rules:
+    # Tickets API routes
+    'api/tickets//$Action/$ID/$OtherID': 'App\Controllers\FetchTicketsApiController'
+    'api/tickets/$Action/$ID': 'App\Controllers\FetchTicketsApiController'
+    'api/tickets/$Action': 'App\Controllers\FetchTicketsApiController'
+    'api/tickets': 'App\Controllers\FetchTicketsApiController'
+
+    # Support Groups API routes
+    'api/support-groups//$Action/$ID/$OtherID': 'App\Controllers\SupportGroupApiController'
+    'api/support-groups/$Action/$ID': 'App\Controllers\SupportGroupApiController'
+    'api/support-groups/$Action': 'App\Controllers\SupportGroupApiController'
+    'api/support-groups': 'App\Controllers\SupportGroupApiController'
+
     # FreshService API routes - standalone controller
     'api/freshservice//$Action/$ID/$OtherID': 'App\Controllers\FreshServicePageController'
     'api/freshservice/$Action/$ID': 'App\Controllers\FreshServicePageController'

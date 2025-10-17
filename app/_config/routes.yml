@@ -5,10 +5,10 @@ After: '#rootroutes'
 SilverStripe\Control\Director:
   rules:
     # Tickets API routes
-    'api/tickets//$Action/$ID/$OtherID': 'App\Controllers\FetchTicketsApiController'
-    'api/tickets/$Action/$ID': 'App\Controllers\FetchTicketsApiController'
-    'api/tickets/$Action': 'App\Controllers\FetchTicketsApiController'
-    'api/tickets': 'App\Controllers\FetchTicketsApiController'
+    'api/tickets//$Action/$ID/$OtherID': 'App\Controllers\TicketsApiController'
+    'api/tickets/$Action/$ID': 'App\Controllers\TicketsApiController'
+    'api/tickets/$Action': 'App\Controllers\TicketsApiController'
+    'api/tickets': 'App\Controllers\TicketsApiController'
 
     # Support Groups API routes
     'api/support-groups//$Action/$ID/$OtherID': 'App\Controllers\SupportGroupApiController'

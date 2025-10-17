@@ -12,14 +12,14 @@ use SilverStripe\Model\List\PaginatedList;
 use SilverStripe\Security\SecurityToken;
 
 /**
- * FetchTicketsApiController
+ * TicketsApiController
  *
  * API Controller for fetching ticket data from the local database
  * Provides JSON endpoints for retrieving ticket information
  *
  * @package App\Controllers
  */
-class FetchTicketsApiController extends Controller
+class TicketsApiController extends Controller
 {
     /**
      * Allowed actions for this controller
@@ -164,10 +164,6 @@ class FetchTicketsApiController extends Controller
             return $this->errorResponse('Failed to fetch tickets: ' . $e->getMessage(), 500);
         }
     }
-
-    /**
-     * Get a specific ticket by ID
-     */
 
     /**
      * Search tickets by various criteria

@@ -90,8 +90,7 @@ class FreshServicePageController extends Controller
             ]);
 
             $tinyResponse = [];
-            foreach ($tickets as $ticket) {
-                $ticket = $ticket[0];
+            foreach ($tickets['tickets'] as $ticket) {
                 // Where status not Resolved 4 or Closed 5
                 if ($ticket['status'] != 4 || $ticket['status'] != 5) {
                     $tinyResponse[] = [
@@ -104,12 +103,7 @@ class FreshServicePageController extends Controller
                         'department_id' => $ticket['department_id'],
                         'category' => $ticket['category'],
                         'sub_category' => $ticket['sub_category'],
-                        'priority' =>  match ($ticket['priority']) {
-                            1 => 'Low',
-                            2 => 'Medium',
-                            3 => 'High',
-                            4 => 'Urgent',
-                        }
+                        'priority' =>  $ticket['priority'],
                     ];
                 }
             }

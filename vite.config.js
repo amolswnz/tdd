@@ -11,7 +11,10 @@ export default defineConfig({
     manifest: true, // Generate manifest.json for SilverStripe
     assetsDir: '',      // Set to empty string to remove assets folder
     rollupOptions: {
-      input: 'themes/app/src/js/main.js', // Entry point
+      input: {
+        main: 'themes/app/src/js/main.js', // JS entry point
+        styles: 'themes/app/src/css/styles.css', // CSS entry point
+      },
       output: {
         entryFileNames: '[name].js', // Output JS files directly
         chunkFileNames: '[name].js', // Output chunks directly

@@ -7,7 +7,7 @@
     <% if $ExtraMeta %>$ExtraMeta<% end_if %>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="$themedResourceURL('dist/main.css')">
+    <link rel="stylesheet" href="$themedResourceURL('dist/styles.css')">
     <script src="$themedResourceURL('dist/main.js')" type="module" defer></script>
 </head>
 <body class="page $ClassName">

@@ -1,3 +1,13 @@
-<h1>themes/app/templates/Layout/Page.ss</h1>
+<div class="page-content">
+    <% if $Content %>
+        <div class="content">
+            $Content
+        </div>
+    <% end_if %>
 
-$ElementalArea
+    <% if $ElementalArea %>
+        <div class="elemental-area">
+            $ElementalArea
+        </div>
+    <% end_if %>
+</div>

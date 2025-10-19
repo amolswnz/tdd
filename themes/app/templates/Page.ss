@@ -15,7 +15,7 @@
         <%-- <% include SiteBanners %> --%>
         <% include Header %>
 
-        <main id="main" class="p-8 bg-white/40">
+        <main id="main" class="max-w-screen-xl flex flex-wrap mx-auto p-4 mt-16">
             $Layout
         </main>
 
